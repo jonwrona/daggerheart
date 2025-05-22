@@ -1,0 +1,22 @@
+.markdownField {
+  position: relative;
+  font-size: 2rem;
+}
+
+.editButton {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  color: var(--highlight);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--highlight-hover);
+  }
+}
+
+.editor {
+  overflow: hidden;
+  resize: none;
+  width: 100%;
+}

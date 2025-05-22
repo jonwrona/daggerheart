@@ -3,13 +3,14 @@
   display: flex;
   align-items: center;
   gap: 0.25rem;
+  margin: 0.125rem 0;
 }
 
 .menuItem {
   position: relative;
 
   .menuItemButton {
-    padding: 0.5rem;
+    padding: 0.25rem 0.5rem;
     background: transparent;
     border: 1px solid transparent;
     border-radius: 0.25rem;
@@ -18,7 +19,7 @@
     &:hover,
     &:focus,
     &.open {
-      border-color: var(--foreground);
+      background: var(--secondary-background);
     }
   }
 }
@@ -28,12 +29,12 @@
   flex-direction: column;
   gap: 0.25rem;
   position: absolute;
-  top: 3rem;
+  top: calc(100% + 0.25rem);
   left: 0;
   background: var(--secondary-background);
-  border: 1px solid var(--foreground);
+  border: 1px solid var(--border-subtle);
   border-radius: 0.25rem;
-  padding: 0.25rem;
+  padding: 0.25rem 0;
   z-index: 1000;
   min-width: 10rem;
 }
@@ -43,20 +44,25 @@
   justify-content: flex-start;
   align-items: center;
   cursor: pointer;
-  padding: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  margin: 0 0.25rem;
   background: transparent;
   border: 1px solid transparent;
   border-radius: 0.25rem;
 
   &:hover,
   &:focus {
-    border-color: var(--foreground);
+    background: var(--background-hover);
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
   }
 }
 
 .menuItemDivider {
   height: 1px;
   width: 100%;
-  background: var(--foreground);
-  margin: 0.25rem 0;
+  background: var(--border-subtle);
 }

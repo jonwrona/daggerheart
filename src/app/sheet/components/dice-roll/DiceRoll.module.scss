@@ -1,0 +1,30 @@
+.diceRoll {
+  color: var(--highlight);
+  cursor: pointer;
+  position: relative;
+  padding-left: calc(1em);
+  text-decoration: none;
+
+  .diceRollIcon {
+    color: inherit;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+  }
+
+  &:hover {
+    color: var(--highlight-hover);
+
+    .label {
+      text-decoration: underline;
+    }
+  }
+}
+
+.diceRollError {
+  color: var(--error);
+  text-decoration: wavy underline;
+  cursor: help;
+}

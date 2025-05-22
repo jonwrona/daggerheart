@@ -1,7 +1,10 @@
 .wrapper {
-  margin: 1rem auto 1rem;
+  margin: 0 auto 1rem;
   max-width: 99rem;
   height: 100%;
+  position: relative;
+  left: 0;
+  bottom: 3rem;
 }
 
 .layout {

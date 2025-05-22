@@ -68,12 +68,27 @@ export const MenuItem = ({ label, children }: MenuItemProps) => {
 
 interface MenuItemOptionProps {
   label: string;
+  disabled?: boolean;
   onClick: () => void;
 }
 
-export const MenuItemOption = ({ label, onClick }: MenuItemOptionProps) => {
+export const MenuItemOption = ({
+  label,
+  disabled,
+  onClick,
+}: MenuItemOptionProps) => {
+  const { handleMenuClick } = useContext(MenuContext);
+
+  const handleClick = () => {
+    onClick && onClick();
+    handleMenuClick("", true); // Close the menu after clicking
+  };
+
   return (
-    <button className={styles.menuItemOption} onClick={onClick}>
+    <button
+      className={`${styles.menuItemOption} ${disabled && styles.disabled}`}
+      onClick={!disabled ? handleClick : undefined}
+    >
       {label}
     </button>
   );

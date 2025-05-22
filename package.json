@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@uidotdev/usehooks": "^2.4.1",
+    "material-icons": "^1.13.14",
     "next": "15.3.2",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-markdown": "^10.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

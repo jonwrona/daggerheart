@@ -1,7 +1,13 @@
 :root {
   --background: #faf7f0; // background
   --secondary-background: #f5f2e8; // secondary background
+  --container-background: #f0ede5;
+  --background-hover: #e8e2d5;
   --foreground: #8b8680; // body text/borders
+  --border-subtle: #c7c0b6;
+  --highlight: #a0956b;
+  --highlight-hover: #8b7355;
+  --error: #b85450;
 
   // background tokens
   //  FAF7F0 - main background, like aged paper
@@ -20,7 +26,14 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #1c1b18; // background
+    --secondary-background: #252320; // secondary background
+    --container-background: #211f1c; // container background
+    --background-hover: #2f2d28; // subtle accents
     --foreground: #b8b3ab; // body text/borders
+    --highlight: #d4b896; // links/highlights
+    --highlight-hover: #e6c7a3; // links/highlights hover
+    --border-subtle: #4a453f; // dividers/subtle elements
+    --error: #b85450;
 
     // background tokens
     //  1C1B18 - main background, like dark aged paper
