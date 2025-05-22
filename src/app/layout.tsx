@@ -3,6 +3,7 @@ import { Open_Sans, Permanent_Marker } from "next/font/google";
 import "./reset.scss";
 import "./globals.scss";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const openSans = Open_Sans({
   weight: "variable",
@@ -30,6 +31,7 @@ export default function RootLayout({
       <body className={`${openSans.variable} ${permanentMarker.variable}`}>
         {children}
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
