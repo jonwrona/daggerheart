@@ -1,0 +1,62 @@
+.menu {
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.menuItem {
+  position: relative;
+
+  .menuItemButton {
+    padding: 0.5rem;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    cursor: pointer;
+
+    &:hover,
+    &:focus,
+    &.open {
+      border-color: var(--foreground);
+    }
+  }
+}
+
+.menuItemOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  position: absolute;
+  top: 3rem;
+  left: 0;
+  background: var(--secondary-background);
+  border: 1px solid var(--foreground);
+  border-radius: 0.25rem;
+  padding: 0.25rem;
+  z-index: 1000;
+  min-width: 10rem;
+}
+
+.menuItemOption {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+  padding: 0.5rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+
+  &:hover,
+  &:focus {
+    border-color: var(--foreground);
+  }
+}
+
+.menuItemDivider {
+  height: 1px;
+  width: 100%;
+  background: var(--foreground);
+  margin: 0.25rem 0;
+}

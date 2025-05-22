@@ -1,0 +1,11 @@
+.wrapper {
+  margin: 1rem auto 1rem;
+  max-width: 99rem;
+  height: 100%;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-columns: auto;
+}

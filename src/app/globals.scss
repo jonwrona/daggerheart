@@ -1,0 +1,76 @@
+:root {
+  --background: #faf7f0; // background
+  --secondary-background: #f5f2e8; // secondary background
+  --foreground: #8b8680; // body text/borders
+
+  // background tokens
+  //  FAF7F0 - main background, like aged paper
+  //  F5F2E8 - secondary background
+  //  E8E2D5 - subtle accents
+  // foreground tokens
+  //  8b8680 - body text/borders
+  //  3D3B37 - headings/important text
+  //  A0956B - links/highlights
+  // supporting tokens
+  //  F0EDE5 - cards/sections
+  //  C7C0B6 - dividers/subtle elements
+  //  5A5651 - secondary text
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #1c1b18; // background
+    --foreground: #b8b3ab; // body text/borders
+
+    // background tokens
+    //  1C1B18 - main background, like dark aged paper
+    //  252320 - secondary backgrounds
+    //  2F2D28 - subtle accents
+    // foreground tokens
+    //  B8B3AB - body text/borders
+    //  E8E2D5 - headings/important text
+    //  D4B896 - links/highlights - warmer than the light mode sepia
+    // supporting tokens
+    //  211F1C - cards/sections
+    //  4A453F - dividers/subtle elements
+    //  9B958C - secondary text
+  }
+}
+
+html,
+body {
+  max-width: 100vw;
+  min-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font: var(--font-open-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+h1 {
+  font: var(--font-permanent-marker);
+  font-size: 1.56rem;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
