@@ -35,7 +35,7 @@ export const MarkdownField = ({
 
   const onEdit = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newMarkdown = event.target.value;
-    setMarkdown && setMarkdown(newMarkdown);
+    setMarkdown?.(newMarkdown);
   };
 
   return (
@@ -59,9 +59,13 @@ export const MarkdownField = ({
       ) : (
         <Markdown
           components={{
-            a: ({ node, ...props }) => {
-              const { children } = props as any;
-              if (children && children.startsWith("roll:")) {
+            a: ({ ...props }) => {
+              const { children } = props;
+              if (
+                children &&
+                typeof children === "string" &&
+                children.startsWith("roll:")
+              ) {
                 return <DiceRoll>{children.replace("roll:", "")}</DiceRoll>;
               }
               return <a {...props} />;

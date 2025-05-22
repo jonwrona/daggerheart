@@ -3,9 +3,14 @@ import { useState, createContext, useContext } from "react";
 import { useClickAway } from "@uidotdev/usehooks";
 import styles from "./Menu.module.scss";
 
-const MenuContext = createContext({
+interface MenuContextType {
+  openMenu: string;
+  handleMenuClick: (menu: string, forceClose?: boolean) => void;
+}
+
+const MenuContext = createContext<MenuContextType>({
   openMenu: "",
-  handleMenuClick: (menu: string, forceClose?: boolean) => {},
+  handleMenuClick: () => {},
 });
 
 interface MenuProps {
@@ -80,7 +85,7 @@ export const MenuItemOption = ({
   const { handleMenuClick } = useContext(MenuContext);
 
   const handleClick = () => {
-    onClick && onClick();
+    onClick?.();
     handleMenuClick("", true); // Close the menu after clicking
   };
 

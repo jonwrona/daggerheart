@@ -1,4 +1,4 @@
-import { createContext, useContext, useId, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { DiceRollResult } from "../dice-roll/DiceRoll";
 import styles from "./RollLog.module.scss";
 
