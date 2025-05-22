@@ -9,6 +9,9 @@
   --highlight-hover: #8b7355;
   --error: #b85450;
 
+  --drop-shadow: 0 8px 25px rgba(61, 59, 55, 0.15),
+    0 2px 8px rgba(61, 59, 55, 0.08);
+
   // background tokens
   //  FAF7F0 - main background, like aged paper
   //  F5F2E8 - secondary background
@@ -34,6 +37,8 @@
     --highlight-hover: #e6c7a3; // links/highlights hover
     --border-subtle: #4a453f; // dividers/subtle elements
     --error: #b85450;
+
+    --drop-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);
 
     // background tokens
     //  1C1B18 - main background, like dark aged paper

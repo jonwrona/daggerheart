@@ -1,18 +1,19 @@
 .rollLog {
   position: absolute;
   z-index: 100;
-  left: 0;
-  bottom: 0;
+  left: 3rem;
+  bottom: 3rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
   max-height: 100vh;
   min-width: 20rem;
-  overflow-y: auto;
+  box-shadow: var(--drop-shadow);
+  border-radius: 0.25rem;
 }
 
 .rollEntry {
-  padding: 0.5rem;
-  border-radius: 4px;
-  background-color: rgba(0, 0, 0, 0.05);
+  padding: 0.5rem 1rem;
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--border-subtle);
+  }
 }
