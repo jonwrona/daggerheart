@@ -1,19 +1,65 @@
 .rollLog {
-  position: absolute;
+  position: fixed;
   z-index: 100;
-  left: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
   bottom: 3rem;
   display: flex;
   flex-direction: column;
   max-height: 100vh;
-  min-width: 20rem;
-  box-shadow: var(--drop-shadow);
-  border-radius: 0.25rem;
+  align-items: flex-start;
+  pointer-events: none;
+}
+
+.rollLog:has(.rollEntry:last-of-type:hover) {
+  cursor: pointer;
+
+  .rollEntry {
+    transform: translateY(0);
+  }
+
+  .rollEntryContent {
+    opacity: 1;
+  }
 }
 
 .rollEntry {
-  padding: 0.5rem 1rem;
+  --scale-factor: calc(var(--roll-entry-index) / var(--roll-entry-count));
+  background-color: var(--secondary-background);
+  z-index: var(--scale-factor);
+  transition: transform 0.2s ease-in-out;
+  pointer-events: all;
+  width: 100%;
+
+  &:last-child .rollEntryContent {
+    border-color: var(--highlight);
+  }
+
+  &:not(:first-child) {
+    margin-top: 0.5rem;
+  }
+
   &:not(:last-child) {
-    border-bottom: 1px solid var(--border-subtle);
+    --transform-amount: calc(
+      (var(--roll-entry-count) - var(--roll-entry-index)) * 100%
+    );
+    transform: translateY(var(--transform-amount));
+  }
+
+  .rollEntryContent {
+    line-height: 1.6;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--drop-shadow);
+    border-radius: 0.25rem;
+
+    font-family: monospace;
+
+    opacity: var(--scale-factor);
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  .result {
+    color: var(--highlight);
   }
 }

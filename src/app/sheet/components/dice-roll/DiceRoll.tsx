@@ -87,7 +87,7 @@ export const DiceRoll: React.FC<DiceRollProps> = ({ children, onRoll }) => {
         size="inherit"
         className={styles.diceRollIcon}
       />
-      &nbsp;<span className={`${styles.label}`}>{children}</span>
+      <span className={`${styles.label}`}>{children}</span>
     </a>
   );
 };

@@ -74,7 +74,7 @@ export const MenuItem = ({ label, children }: MenuItemProps) => {
 interface MenuItemOptionProps {
   label: string;
   disabled?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export const MenuItemOption = ({
@@ -91,7 +91,9 @@ export const MenuItemOption = ({
 
   return (
     <button
-      className={`${styles.menuItemOption} ${disabled && styles.disabled}`}
+      className={`${styles.menuItemOption} ${
+        (disabled || !onClick) && styles.disabled
+      }`}
       onClick={!disabled ? handleClick : undefined}
     >
       {label}

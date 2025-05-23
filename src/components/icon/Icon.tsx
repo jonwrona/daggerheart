@@ -1,6 +1,6 @@
 import React from "react";
 
-import { CSSPropertiesWithVariables } from "@/types";
+import { CSSPropertiesWithVariables } from "@/types/react";
 
 import "material-icons/iconfont/filled.css";
 import "material-icons/iconfont/outlined.css";
