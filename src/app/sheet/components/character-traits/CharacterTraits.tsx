@@ -24,7 +24,7 @@ const CharacterTrait: React.FC<CharacterTraitProps> = ({
   modifier,
   setTrait,
 }) => {
-  const [editing, setEditing] = useState(true);
+  const [editing] = useState(true);
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(event.target.value);
