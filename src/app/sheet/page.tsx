@@ -1,5 +1,6 @@
 "use client";
 import { useReducer } from "react";
+import { useLocalStorage } from "@uidotdev/usehooks";
 import { CharacterSheetMenu } from "./components/character-sheet-menu/CharacterSheetMenu";
 import { DiceRoll } from "./components/dice-roll/DiceRoll";
 import { RollLog, RollLogProvider } from "./components/roll-log/RollLog";
@@ -17,7 +18,11 @@ const reducer = (state: CharacterSheet, updated: Partial<CharacterSheet>) => {
 };
 
 const CharacterSheet = () => {
-  const [state, dispatch] = useReducer(reducer, blankCharacterSheet);
+  const [sheet, saveSheet] = useLocalStorage(
+    "characterSheet",
+    blankCharacterSheet
+  );
+  const [state, dispatch] = useReducer(reducer, sheet);
 
   const setTrait = (trait: keyof Traits, newModifier: TraitModifier) => {
     dispatch({
@@ -31,7 +36,7 @@ const CharacterSheet = () => {
   return (
     <RollLogProvider>
       <div className={`${styles.wrapper}`}>
-        <CharacterSheetMenu />
+        <CharacterSheetMenu handleSave={() => saveSheet(state)} />
         <div className={`${styles.grid}`}>
           <CharacterTraits traits={state.traits} setTrait={setTrait} />
           <DiceRoll>1d4</DiceRoll>
