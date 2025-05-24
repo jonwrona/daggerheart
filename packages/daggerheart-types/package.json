@@ -11,6 +11,8 @@
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist",
+    "version-bump": "node scripts/version-bump.js",
+    "publish": "npm publish",
     "prepublishOnly": "bun run clean && bun run build"
   },
   "keywords": [
