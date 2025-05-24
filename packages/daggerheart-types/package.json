@@ -24,7 +24,6 @@
   "author": "Jon Wrona",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^22.15.21",
     "typescript": "^5.0.0"
   },
   "repository": {
