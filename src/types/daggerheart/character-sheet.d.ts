@@ -11,4 +11,5 @@ export type Traits = {
 
 export type CharacterSheet = {
   traits: Traits;
+  currency: number;
 };
