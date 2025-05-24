@@ -2,6 +2,10 @@ name: Publish Daggerheart Types
 
 on:
   push:
+    branches:
+      - main
+    paths:
+      - "src/types/daggerheart/**" # Trigger when types change
     tags:
       - "types-v*" # Only publish when tags like 'types-v1.0.0' are pushed
   workflow_dispatch: # Allow manual triggering
@@ -100,14 +104,12 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create release (if manual trigger)
-        if: github.event_name == 'workflow_dispatch'
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create release
+        if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+        uses: softprops/action-gh-release@v1
         with:
           tag_name: types-v${{ steps.version.outputs.new_version }}
-          release_name: Daggerheart Types v${{ steps.version.outputs.new_version }}
+          name: Daggerheart Types v${{ steps.version.outputs.new_version }}
           body: |
             Published Daggerheart Types package to GitHub Packages
 
@@ -115,5 +117,13 @@ jobs:
             ```bash
             npm install @jonwrona/daggerheart-types
             ```
+
+            ## Changes
+            ${{ github.event_name == 'push' && 'Auto-published due to type changes in main branch' || 'Manual release' }}
+
+            **Commit:** ${{ github.event.head_commit.message || github.event.commits[0].message }}
+            **Files changed:** ${{ github.event_name == 'push' && 'src/types/daggerheart/' || 'Manual trigger' }}
           draft: false
           prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
