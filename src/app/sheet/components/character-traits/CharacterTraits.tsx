@@ -2,7 +2,7 @@ import type {
   Traits,
   TraitModifier,
 } from "@/types/daggerheart/character-sheet";
-import { useState } from "react";
+import { clamp } from "@/utils/clamp";
 import styles from "./CharacterTraits.module.scss";
 
 interface CharacterTraitProps {
@@ -18,14 +18,15 @@ interface CharacterTraitProps {
   setTrait?: (value: TraitModifier) => void;
 }
 
+const MINIMUM = -99;
+const MAXIMUM = 99;
+
 const CharacterTrait: React.FC<CharacterTraitProps> = ({
   trait,
   exampleActions,
   modifier,
   setTrait,
 }) => {
-  const [editing] = useState(true);
-
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(event.target.value);
     if (
@@ -35,18 +36,21 @@ const CharacterTrait: React.FC<CharacterTraitProps> = ({
     ) {
       setTrait?.(event.target.value);
     } else if (!isNaN(newValue)) {
-      setTrait?.(newValue);
+      setTrait?.(clamp(newValue, MINIMUM, MAXIMUM));
     }
   };
 
   return (
     <div className={styles.characterTrait}>
       <div className={styles.label}>{trait}</div>
-      {editing && setTrait ? (
-        <input value={modifier} onChange={onChange} />
-      ) : (
-        modifier
-      )}
+      <div className={styles.modifier}>
+        <input
+          className={styles.modifierInput}
+          placeholder="0"
+          value={modifier}
+          onChange={onChange}
+        />
+      </div>
       <div className={styles.examples}>{exampleActions.join("\n")}</div>
     </div>
   );

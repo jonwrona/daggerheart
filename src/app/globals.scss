@@ -4,6 +4,7 @@
   --container-background: #f0ede5;
   --background-hover: #e8e2d5;
   --foreground: #8b8680; // body text/borders
+  --primary: #3d3b37;
   --border-subtle: #c7c0b6;
   --highlight: #a0956b;
   --highlight-hover: #8b7355;
@@ -33,6 +34,7 @@
     --container-background: #211f1c; // container background
     --background-hover: #2f2d28; // subtle accents
     --foreground: #b8b3ab; // body text/borders
+    --primary: #e8e2d5;
     --highlight: #d4b896; // links/highlights
     --highlight-hover: #e6c7a3; // links/highlights hover
     --border-subtle: #4a453f; // dividers/subtle elements
@@ -55,6 +57,12 @@
   }
 }
 
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
+
 html,
 body {
   max-width: 100vw;
@@ -66,10 +74,16 @@ body {
 body {
   color: var(--foreground);
   background: var(--background);
-  font: var(--font-open-sans);
+  font-family: var(--font-spline-sans-mono);
   font-size: 1rem;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  margin: 0 auto 1rem;
+  padding: 0 1rem;
+  max-width: 99rem;
+  height: 100%;
+  position: relative;
 }
 
 * {
@@ -79,7 +93,6 @@ body {
 }
 
 h1 {
-  font: var(--font-permanent-marker);
   font-size: 1.56rem;
 }
 
@@ -88,8 +101,10 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+input {
+  color: var(--primary);
+
+  &::placeholder {
+    color: var(--foreground);
   }
 }

@@ -1,14 +1,38 @@
 .characterTrait {
   border: 1px solid var(--border-subtle);
   border-radius: 0.25rem;
+  // text-align: center;
 
   .label {
     border-bottom: 1px solid var(--border-subtle);
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+  }
+
+  .modifier {
+    display: flex;
+    justify-content: stretch;
+  }
+
+  .modifierInput {
+    display: block;
+    background: var(--secondary-background);
+    border: unset;
+    font-size: 3rem;
+    width: 100%;
+    padding: 0 1rem;
+    text-align: center;
+
+    &:focus {
+      outline: 1px solid var(--highlight);
+    }
   }
 
   .examples {
     border-top: 1px solid var(--border-subtle);
     white-space: pre;
+    padding: 0.5rem 1rem;
+    text-align: right;
   }
 }
 
@@ -21,12 +45,14 @@
   grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: auto;
   gap: 1rem;
+  max-width: 100%;
+  overflow: hidden;
 
-  @container traits (min-width: 600px) {
+  @container traits (min-width: 400px) {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  @container traits (min-width: 1200px) {
+  @container traits (min-width: 1000px) {
     grid-template-columns: repeat(6, 1fr);
   }
 }

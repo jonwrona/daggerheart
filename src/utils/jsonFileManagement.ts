@@ -1,6 +1,6 @@
 export const saveJSONToFile = (
   data: object,
-  filename: string = "character-sheet.json"
+  filename: string = "daggerheart-toolset-json"
 ) => {
   const json = JSON.stringify(data, null, 2);
   const blob = new Blob([json], { type: "application/json" });
@@ -8,7 +8,7 @@ export const saveJSONToFile = (
 
   const a = document.createElement("a");
   a.href = url;
-  a.download = filename;
+  a.download = `${filename}.json`;
   a.click();
 
   URL.revokeObjectURL(url);

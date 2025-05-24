@@ -10,6 +10,7 @@ export type Traits = {
 };
 
 export type CharacterSheet = {
+  name: string;
   traits: Traits;
   currency: number;
 };

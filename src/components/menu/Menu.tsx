@@ -1,7 +1,8 @@
 "use client";
-import { useState, createContext, useContext } from "react";
+import React, { useState, createContext, useContext } from "react";
 import { useClickAway } from "@uidotdev/usehooks";
 import styles from "./Menu.module.scss";
+import Link from "next/link";
 
 interface MenuContextType {
   openMenu: string;
@@ -34,20 +35,34 @@ export const Menu = ({ children }: MenuProps) => {
   return (
     <nav className={`${styles.menu}`}>
       <MenuContext.Provider value={{ openMenu, handleMenuClick }}>
+        <MenuItem label="Daggerheart">
+          <MenuItemLink href="/">Home</MenuItemLink>
+          <MenuItemLink href="/sheet">Character Sheet</MenuItemLink>
+          <MenuItemLink href="/data">Data Management</MenuItemLink>
+          <MenuItemDivider />
+          <MenuItemOption>Preferences</MenuItemOption>
+        </MenuItem>
         {children}
       </MenuContext.Provider>
     </nav>
   );
 };
 
+export const MenuSpacer = () => <div className={styles.menuSpacer} />;
+
 interface MenuItemProps {
   label: string;
   children?:
     | React.ReactElement<typeof MenuItemOption>
     | React.ReactElement<typeof MenuItemOption>[];
+  align?: "left" | "right";
 }
 
-export const MenuItem = ({ label, children }: MenuItemProps) => {
+export const MenuItem = ({
+  label,
+  children,
+  align = "left",
+}: MenuItemProps) => {
   const { openMenu, handleMenuClick } = useContext(MenuContext);
   const isOpen = openMenu === label;
 
@@ -63,7 +78,7 @@ export const MenuItem = ({ label, children }: MenuItemProps) => {
         {label}
       </button>
       {isOpen && (
-        <div ref={ref} className={`${styles.menuItemOptions}`}>
+        <div ref={ref} className={`${styles.menuItemOptions} ${styles[align]}`}>
           {children}
         </div>
       )}
@@ -72,13 +87,13 @@ export const MenuItem = ({ label, children }: MenuItemProps) => {
 };
 
 interface MenuItemOptionProps {
-  label: string;
+  children: React.ReactNode;
   disabled?: boolean;
   onClick?: () => void;
 }
 
 export const MenuItemOption = ({
-  label,
+  children,
   disabled,
   onClick,
 }: MenuItemOptionProps) => {
@@ -96,8 +111,30 @@ export const MenuItemOption = ({
       }`}
       onClick={!disabled ? handleClick : undefined}
     >
-      {label}
+      {children}
     </button>
+  );
+};
+
+interface MenuItemLinkProps {
+  children: React.ReactNode;
+  href: string;
+}
+
+export const MenuItemLink: React.FC<MenuItemLinkProps> = ({
+  href,
+  children,
+}) => {
+  const { handleMenuClick } = useContext(MenuContext);
+
+  const handleClick = () => {
+    handleMenuClick("", true);
+  };
+
+  return (
+    <Link href={href} className={styles.menuItemOption} onClick={handleClick}>
+      {children}
+    </Link>
   );
 };
 

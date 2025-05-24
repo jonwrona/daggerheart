@@ -14,6 +14,8 @@ import { blankCharacterSheet } from "@/data/blankCharacterSheet";
 import styles from "./page.module.scss";
 import { saveJSONToFile } from "@/utils/jsonFileManagement";
 import { FileSelector } from "@/components/file-selector/FileSelector";
+import { AutoWidthInput } from "@/components/auto-width-input/AutoWidthInput";
+import slugify from "slugify";
 
 const reducer = (state: CharacterSheet, updated: Partial<CharacterSheet>) => {
   return { ...state, ...updated };
@@ -42,6 +44,10 @@ const CharacterSheet = () => {
     }
   }, [state, isLoading]);
 
+  const setName = (newName: string) => {
+    dispatch({ name: newName });
+  };
+
   const setTrait = (trait: keyof Traits, newModifier: TraitModifier) => {
     dispatch({
       traits: {
@@ -58,7 +64,8 @@ const CharacterSheet = () => {
   };
 
   const handleSave = () => {
-    saveJSONToFile(state);
+    const name = slugify(state.name, { lower: true, strict: true });
+    saveJSONToFile(state, `character-sheet-${name}`);
   };
 
   const handleOpen = () => {
@@ -71,18 +78,23 @@ const CharacterSheet = () => {
 
   return (
     <RollLogProvider>
-      <div className={`${styles.wrapper}`}>
-        <CharacterSheetMenu handleSave={handleSave} handleOpen={handleOpen} />
-        <div className={`${styles.grid}`}>
-          <CharacterTraits traits={state.traits} setTrait={setTrait} />
-          <DiceRoll>1d4</DiceRoll>
-          <Currency total={state.currency} setTotal={setCurrency} />
-        </div>
-        <div>
-          <code style={{ whiteSpace: "pre" }}>
-            {JSON.stringify(state, null, 2)}
-          </code>
-        </div>
+      <CharacterSheetMenu handleSave={handleSave} handleOpen={handleOpen} />
+      <div className={styles.sheet}>
+        <AutoWidthInput
+          placeholder="Character Name"
+          className={styles.name}
+          value={state.name}
+          setValue={setName}
+          maxLength={50}
+        />
+        <CharacterTraits traits={state.traits} setTrait={setTrait} />
+        <DiceRoll>1d4</DiceRoll>
+        <Currency total={state.currency} setTotal={setCurrency} />
+      </div>
+      <div>
+        <code style={{ whiteSpace: "pre" }}>
+          {JSON.stringify(state, null, 2)}
+        </code>
       </div>
       <RollLog />
       <FileSelector inputRef={fileSelectorRef} handleLoad={dispatch} />

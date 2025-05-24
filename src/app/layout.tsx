@@ -1,19 +1,17 @@
 import type { Metadata } from "next";
-import { Open_Sans, Permanent_Marker } from "next/font/google";
+import { Spline_Sans_Mono } from "next/font/google";
 import "./reset.scss";
 import "./globals.scss";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
-const openSans = Open_Sans({
+const splineSansMono = Spline_Sans_Mono({
   weight: "variable",
-  variable: "--font-open-sans",
+  subsets: ["latin"],
+  variable: "--font-spline-sans-mono",
 });
 
-const permanentMarker = Permanent_Marker({
-  weight: "400",
-  variable: "--font-permanent-marker",
-});
+const fontVariables = [splineSansMono.variable].join(" ");
 
 export const metadata: Metadata = {
   title: "Daggerheart Tools",
@@ -28,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${openSans.variable} ${permanentMarker.variable}`}>
+      <body className={fontVariables}>
         {children}
         <Analytics />
         <SpeedInsights />

@@ -4,6 +4,7 @@ import {
 } from "@/types/daggerheart/character-sheet";
 
 export const blankCharacterSheet: CharacterSheet = Object.freeze({
+  name: "",
   traits: {
     agility: "" as TraitModifier,
     strength: "" as TraitModifier,

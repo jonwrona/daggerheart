@@ -1,12 +1,25 @@
-.wrapper {
-  margin: 0 auto 1rem;
-  max-width: 99rem;
-  height: 100%;
-  position: relative;
+.sheet {
+  display: grid;
+  gap: 1rem;
 }
 
-.layout {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-auto-columns: auto;
+.name {
+  background: unset;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid transparent;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  padding: 0.25rem 0 0 0;
+  font-size: 2rem;
+  color: var(--primary);
+
+  &::placeholder {
+    color: var(--foreground);
+  }
+
+  &:focus {
+    border-color: var(--highlight);
+    background: var(--secondary-background);
+  }
 }

@@ -17,12 +17,12 @@ export const CharacterSheetMenu: React.FC<CharacterSheetMenuProps> = ({
   return (
     <Menu>
       <MenuItem label="File">
-        <MenuItemOption label="New" disabled onClick={() => {}} />
+        <MenuItemOption>New</MenuItemOption>
         <MenuItemDivider />
-        <MenuItemOption label="Open" onClick={handleOpen} />
+        <MenuItemOption onClick={handleOpen}>Open</MenuItemOption>
         <MenuItemDivider />
-        <MenuItemOption label="Save" onClick={handleSave} />
-        <MenuItemOption label="Save As..." disabled onClick={() => {}} />
+        <MenuItemOption onClick={handleSave}>Save</MenuItemOption>
+        <MenuItemOption>Save As...</MenuItemOption>
       </MenuItem>
     </Menu>
   );
