@@ -6,19 +6,6 @@ on:
       - main
     paths:
       - "src/types/daggerheart/**" # Trigger when types change
-    tags:
-      - "types-v*" # Only publish when tags like 'types-v1.0.0' are pushed
-  workflow_dispatch: # Allow manual triggering
-    inputs:
-      version:
-        description: "Version to publish"
-        required: true
-        default: "patch"
-        type: choice
-        options:
-          - patch
-          - minor
-          - major
 
 # Prevent concurrent runs
 concurrency:
@@ -56,16 +43,14 @@ jobs:
         working-directory: packages/daggerheart-types
         run: bun run build
 
-      - name: Update version (if manual trigger)
-        if: github.event_name == 'workflow_dispatch'
+      - name: Update version
         working-directory: packages/daggerheart-types
         run: |
           npm version ${{ github.event.inputs.version }} --no-git-tag-version
           echo "new_version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
         id: version
 
-      - name: Commit version bump (if manual trigger)
-        if: github.event_name == 'workflow_dispatch'
+      - name: Commit version bump
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
@@ -105,7 +90,6 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create release
-        if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
         uses: softprops/action-gh-release@v1
         with:
           tag_name: types-v${{ steps.version.outputs.new_version }}
