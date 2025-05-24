@@ -7,11 +7,13 @@ import {
 
 interface CharacterSheetMenuProps {
   handleSave?: () => void;
+  handleSaveAs?: () => void;
   handleOpen?: () => void;
 }
 
 export const CharacterSheetMenu: React.FC<CharacterSheetMenuProps> = ({
   handleSave,
+  handleSaveAs,
   handleOpen,
 }) => {
   return (
@@ -22,7 +24,7 @@ export const CharacterSheetMenu: React.FC<CharacterSheetMenuProps> = ({
         <MenuItemOption onClick={handleOpen}>Open</MenuItemOption>
         <MenuItemDivider />
         <MenuItemOption onClick={handleSave}>Save</MenuItemOption>
-        <MenuItemOption>Save As...</MenuItemOption>
+        <MenuItemOption onClick={handleSaveAs}>Save As...</MenuItemOption>
       </MenuItem>
     </Menu>
   );

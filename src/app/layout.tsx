@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { Spline_Sans_Mono } from "next/font/google";
-import "./reset.scss";
-import "./globals.scss";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { SettingsProvider } from "@/components/settings-context/SettingsContext";
+import { ThemeSetter } from "@/components/theme-setter/ThemeSetter";
+import "./reset.scss";
+import "./globals.scss";
+import "./type.scss";
 
 const splineSansMono = Spline_Sans_Mono({
   weight: "variable",
@@ -27,7 +30,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={fontVariables}>
-        {children}
+        <SettingsProvider>
+          {children}
+          <ThemeSetter />
+        </SettingsProvider>
         <Analytics />
         <SpeedInsights />
       </body>

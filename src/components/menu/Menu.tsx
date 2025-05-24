@@ -40,7 +40,7 @@ export const Menu = ({ children }: MenuProps) => {
           <MenuItemLink href="/sheet">Character Sheet</MenuItemLink>
           <MenuItemLink href="/data">Data Management</MenuItemLink>
           <MenuItemDivider />
-          <MenuItemOption>Preferences</MenuItemOption>
+          <MenuItemLink href="/settings">Settings</MenuItemLink>
         </MenuItem>
         {children}
         <MenuItem label="Help">

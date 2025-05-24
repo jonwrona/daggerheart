@@ -1,70 +1,24 @@
+@use "./themes.scss" as *;
+
 :root {
-  --background: #faf7f0; // background
-  --secondary-background: #f5f2e8; // secondary background
-  --container-background: #f0ede5;
-  --background-hover: #e8e2d5;
-  --foreground: #8b8680; // body text/borders
-  --primary: #3d3b37;
-  --border-subtle: #c7c0b6;
-  --highlight: #a0956b;
-  --highlight-hover: #8b7355;
-  --error: #b85450;
-
-  --drop-shadow: 0 8px 25px rgba(61, 59, 55, 0.15),
-    0 2px 8px rgba(61, 59, 55, 0.08);
-
-  // background tokens
-  //  FAF7F0 - main background, like aged paper
-  //  F5F2E8 - secondary background
-  //  E8E2D5 - subtle accents
-  // foreground tokens
-  //  8b8680 - body text/borders
-  //  3D3B37 - headings/important text
-  //  A0956B - links/highlights
-  // supporting tokens
-  //  F0EDE5 - cards/sections
-  //  C7C0B6 - dividers/subtle elements
-  //  5A5651 - secondary text
+  @include light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #1c1b18; // background
-    --secondary-background: #252320; // secondary background
-    --container-background: #211f1c; // container background
-    --background-hover: #2f2d28; // subtle accents
-    --foreground: #b8b3ab; // body text/borders
-    --primary: #e8e2d5;
-    --highlight: #d4b896; // links/highlights
-    --highlight-hover: #e6c7a3; // links/highlights hover
-    --border-subtle: #4a453f; // dividers/subtle elements
-    --error: #b85450;
-
-    --drop-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);
-
-    // background tokens
-    //  1C1B18 - main background, like dark aged paper
-    //  252320 - secondary backgrounds
-    //  2F2D28 - subtle accents
-    // foreground tokens
-    //  B8B3AB - body text/borders
-    //  E8E2D5 - headings/important text
-    //  D4B896 - links/highlights - warmer than the light mode sepia
-    // supporting tokens
-    //  211F1C - cards/sections
-    //  4A453F - dividers/subtle elements
-    //  9B958C - secondary text
+    @include dark;
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+html[data-theme="light"] {
+  @include light;
 }
 
-html,
-body {
+html[data-theme="dark"] {
+  @include dark;
+}
+
+html {
   max-width: 100vw;
   min-height: 100vh;
   overflow-y: auto;
@@ -72,6 +26,7 @@ body {
 }
 
 body {
+  overflow: visible;
   color: var(--foreground);
   background: var(--background);
   font-family: var(--font-spline-sans-mono);
@@ -90,10 +45,6 @@ body {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-}
-
-h1 {
-  font-size: 1.56rem;
 }
 
 a {
