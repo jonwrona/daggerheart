@@ -1,0 +1,37 @@
+{
+  "name": "@jonwrona/daggerheart-types",
+  "version": "1.0.0",
+  "description": "TypeScript types for Daggerheart game system",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "bun run clean && bun run build"
+  },
+  "keywords": [
+    "daggerheart",
+    "typescript",
+    "types",
+    "tabletop",
+    "rpg"
+  ],
+  "author": "Jon Wrona",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jonwrona/daggerheart.git",
+    "directory": "packages/daggerheart-types"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
+  }
+}
