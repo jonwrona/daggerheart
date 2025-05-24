@@ -27,20 +27,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "18"
-          registry-url: "https://npm.pkg.github.com"
-          scope: "@your-username"
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v2
+        
 
       - name: Install dependencies
         working-directory: packages/daggerheart-types
-        run: npm ci
+        run: bun install
 
       - name: Build types package
         working-directory: packages/daggerheart-types
-        run: npm run build
+        run: bun run build
 
       - name: Update version (if manual trigger)
         if: github.event_name == 'workflow_dispatch'
@@ -49,7 +46,7 @@ jobs:
 
       - name: Publish to GitHub Packages
         working-directory: packages/daggerheart-types
-        run: npm publish
+        run: bun publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
