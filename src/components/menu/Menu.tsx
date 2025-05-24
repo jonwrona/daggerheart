@@ -43,6 +43,14 @@ export const Menu = ({ children }: MenuProps) => {
           <MenuItemOption>Preferences</MenuItemOption>
         </MenuItem>
         {children}
+        <MenuItem label="Help">
+          <MenuItemLink
+            href="https://github.com/jonwrona/daggerheart/issues/new"
+            target="_blank"
+          >
+            Report Issue
+          </MenuItemLink>
+        </MenuItem>
       </MenuContext.Provider>
     </nav>
   );
@@ -116,7 +124,8 @@ export const MenuItemOption = ({
   );
 };
 
-interface MenuItemLinkProps {
+interface MenuItemLinkProps
+  extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   children: React.ReactNode;
   href: string;
 }
@@ -124,6 +133,7 @@ interface MenuItemLinkProps {
 export const MenuItemLink: React.FC<MenuItemLinkProps> = ({
   href,
   children,
+  ...props
 }) => {
   const { handleMenuClick } = useContext(MenuContext);
 
@@ -132,7 +142,12 @@ export const MenuItemLink: React.FC<MenuItemLinkProps> = ({
   };
 
   return (
-    <Link href={href} className={styles.menuItemOption} onClick={handleClick}>
+    <Link
+      {...props}
+      href={href}
+      className={styles.menuItemOption}
+      onClick={handleClick}
+    >
       {children}
     </Link>
   );
