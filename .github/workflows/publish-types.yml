@@ -138,6 +138,7 @@ jobs:
         with:
           tag_name: types-v${{ steps.version.outputs.new_version }}
           name: Daggerheart Types v${{ steps.version.outputs.new_version }}
+          files: packages/daggerheart-types/**/*
           body: |
             Published Daggerheart Types package to GitHub Packages
 
