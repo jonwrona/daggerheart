@@ -1,4 +1,10 @@
 .diceRoll {
+  display: inline;
+  background: none;
+  outline: none;
+  border: none;
+  padding: 0;
+  margin: 0;
   color: var(--highlight);
   cursor: pointer;
   position: relative;
@@ -12,9 +18,11 @@
     top: 50%;
     transform: translateY(-50%);
     left: 0;
+    line-height: var(--size);
   }
 
-  &:hover {
+  &:hover,
+  &:focus {
     color: var(--highlight-hover);
 
     .label {

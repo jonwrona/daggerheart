@@ -80,14 +80,9 @@ export const DiceRoll: React.FC<DiceRollProps> = ({ children, onRoll }) => {
   };
 
   return (
-    <a className={`${styles.diceRoll}`} onClick={roll}>
-      <Icon
-        name="casino"
-        variant="outlined"
-        size="inherit"
-        className={styles.diceRollIcon}
-      />
+    <button className={`${styles.diceRoll}`} onClick={roll}>
+      <Icon name="casino" size="inherit" className={styles.diceRollIcon} />
       <span className={`${styles.label}`}>{children}</span>
-    </a>
+    </button>
   );
 };

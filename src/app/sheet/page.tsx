@@ -90,13 +90,10 @@ const CharacterSheet = () => {
           maxLength={50}
         />
         <CharacterTraits traits={state.traits} setTrait={setTrait} />
-        <DiceRoll>1d4</DiceRoll>
-        <Currency total={state.currency} setTotal={setCurrency} />
-      </div>
-      <div>
-        <code style={{ whiteSpace: "pre" }}>
-          {JSON.stringify(state, null, 2)}
-        </code>
+        <h1>
+          <DiceRoll>1d4</DiceRoll>
+        </h1>
+        <Currency total={state.currency} setTotal={setCurrency} max={999} />
       </div>
       <RollLog />
       <FileSelector inputRef={fileSelectorRef} handleLoad={dispatch} />
