@@ -60,13 +60,11 @@ export interface Feature {
 }
 
 export interface Ancestry {
-  id: string;
   name: string;
   features: Feature | Feature[];
 }
 
 export interface Community {
-  id: string;
   name: string;
   features: Feature | Feature[];
 }
