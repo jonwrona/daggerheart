@@ -25,8 +25,8 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      packages: write
+      contents: write # Allow writing to repo (for version commits)
+      packages: write # Allow publishing packages
 
     steps:
       - name: Checkout code
@@ -55,7 +55,19 @@ jobs:
       - name: Update version (if manual trigger)
         if: github.event_name == 'workflow_dispatch'
         working-directory: packages/daggerheart-types
-        run: npm version ${{ github.event.inputs.version }} --no-git-tag-version
+        run: |
+          npm version ${{ github.event.inputs.version }} --no-git-tag-version
+          echo "new_version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+        id: version
+
+      - name: Commit version bump (if manual trigger)
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add packages/daggerheart-types/package.json
+          git commit -m "chore: bump types package version to v${{ steps.version.outputs.new_version }}"
+          git push
 
       - name: Configure npm authentication
         working-directory: packages/daggerheart-types
@@ -84,7 +96,7 @@ jobs:
         working-directory: packages/daggerheart-types
         run: |
           echo "Publishing version $(node -p "require('./package.json').version")"
-          npm publish --dry-run  # Remove --dry-run when ready
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
