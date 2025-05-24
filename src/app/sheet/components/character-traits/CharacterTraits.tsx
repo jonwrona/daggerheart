@@ -29,11 +29,7 @@ const CharacterTrait: React.FC<CharacterTraitProps> = ({
 }) => {
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(event.target.value);
-    if (
-      event.target.value === "" ||
-      event.target.value === "-" ||
-      event.target.value === "+"
-    ) {
+    if (event.target.value === "" || event.target.value === "-") {
       setTrait?.(event.target.value);
     } else if (!isNaN(newValue)) {
       setTrait?.(clamp(newValue, MINIMUM, MAXIMUM));
