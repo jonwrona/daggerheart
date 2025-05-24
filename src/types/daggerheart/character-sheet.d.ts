@@ -44,11 +44,17 @@ export type Questions = {
   answer: string;
 };
 
-// TODO set up advancements for levelling up
+/* eslint-disable */
+// TODO: set up advancements for levelling up
+// @ts-expect-error Advancement types are a WIP
 export interface Advancement {}
+// @ts-expect-error Advancement types are a WIP
 export interface AdvancementTier2 extends Advancement {}
+// @ts-expect-error Advancement types are a WIP
 export interface AdvancementTier3 extends Advancement {}
+// @ts-expect-error Advancement types are a WIP
 export interface AdvancementTier4 extends Advancement {}
+/* eslint-enable */
 
 export type CharacterSheet = {
   name: string;
@@ -81,6 +87,5 @@ export type CharacterSheet = {
   };
   backgroundQuestions: BackgroundQuestions[];
   connections: Questions[];
-  // TODO: leveling up
   advancements: Advancement[];
 };

@@ -21,6 +21,7 @@ export const blankCharacterSheet: CharacterSheet = Object.freeze({
   armor: UNARMORED(1), // base depends on armor
   hitpoints: { marked: 0, slots: 0 }, // base depends on class
   stress: { marked: 0, slots: BASE_STRESS },
+  inventory: [],
   experience: [],
   characterDescription: {
     clothes: "",
