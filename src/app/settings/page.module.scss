@@ -1,0 +1,29 @@
+.main {
+  max-width: 48rem;
+  margin: 4rem auto;
+  --space: 1.5rem;
+
+  > * + * {
+    margin-top: var(--space);
+  }
+
+  h1 {
+    --space: 9rem;
+  }
+
+  h2 {
+    --space: 5rem;
+  }
+
+  h3 {
+    --space: 4rem;
+  }
+
+  h4 {
+    --space: 2rem;
+  }
+
+  h5 + * {
+    margin-top: 0.5rem;
+  }
+}

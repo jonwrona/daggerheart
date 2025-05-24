@@ -50,6 +50,12 @@ export const Menu = ({ children }: MenuProps) => {
           >
             Report Issue
           </MenuItemLink>
+          <MenuItemLink
+            href="https://github.com/jonwrona/daggerheart/issues?q=is%3Aissue%20state%3Aopen%20label%3Aenhancement"
+            target="_blank"
+          >
+            Feature Requests
+          </MenuItemLink>
         </MenuItem>
       </MenuContext.Provider>
     </nav>
