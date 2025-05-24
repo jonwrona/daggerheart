@@ -16,6 +16,11 @@ on:
           - minor
           - major
 
+# Prevent concurrent runs
+concurrency:
+  group: publish-types
+  cancel-in-progress: false
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -27,15 +32,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup bun
-        uses: oven-sh/setup-bun@v2
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
 
       - name: Setup Node.js (for npm registry auth)
         uses: actions/setup-node@v4
         with:
           node-version: "18"
           registry-url: "https://npm.pkg.github.com"
-          scope: "@jonwrona"
+          scope: "@your-username"
 
       - name: Install dependencies
         working-directory: packages/daggerheart-types
@@ -50,9 +57,34 @@ jobs:
         working-directory: packages/daggerheart-types
         run: npm version ${{ github.event.inputs.version }} --no-git-tag-version
 
-      - name: Publish to GitHub Packages
+      - name: Configure npm authentication
         working-directory: packages/daggerheart-types
-        run: npm publish
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
+          echo "@your-username:registry=https://npm.pkg.github.com" >> .npmrc
+
+      - name: Check if version already exists
+        working-directory: packages/daggerheart-types
+        id: version-check
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          echo "Current version: $PACKAGE_VERSION"
+
+          # Check if this version already exists
+          if npm view @your-username/daggerheart-types@$PACKAGE_VERSION version 2>/dev/null; then
+            echo "Version $PACKAGE_VERSION already exists!"
+            echo "already-exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "Version $PACKAGE_VERSION is new"
+            echo "already-exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Publish to GitHub Packages
+        if: steps.version-check.outputs.already-exists == 'false'
+        working-directory: packages/daggerheart-types
+        run: |
+          echo "Publishing version $(node -p "require('./package.json').version")"
+          npm publish --dry-run  # Remove --dry-run when ready
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

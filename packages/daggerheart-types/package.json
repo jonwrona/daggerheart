@@ -11,7 +11,6 @@
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist",
-    "publish": "npm publish",
     "prepublishOnly": "bun run clean && bun run build"
   },
   "keywords": [
@@ -21,14 +20,14 @@
     "tabletop",
     "rpg"
   ],
-  "author": "Jon Wrona",
+  "author": "Your Name",
   "license": "MIT",
   "devDependencies": {
     "typescript": "^5.0.0"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jonwrona/daggerheart.git",
+    "url": "git+https://github.com/jonwrona/your-repo.git",
     "directory": "packages/daggerheart-types"
   },
   "publishConfig": {
