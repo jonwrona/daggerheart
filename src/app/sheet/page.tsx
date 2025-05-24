@@ -65,7 +65,7 @@ const CharacterSheet = () => {
 
   const handleSave = () => {
     const name = slugify(state.name, { lower: true, strict: true });
-    saveJSONToFile(state, `character-sheet-${name}`);
+    saveJSONToFile(state, `${name}.character`);
   };
 
   const handleOpen = () => {
