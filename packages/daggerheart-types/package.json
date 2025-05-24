@@ -1,6 +1,6 @@
 {
   "name": "@jonwrona/daggerheart-types",
-  "version": "0.0.2",
+  "version": "0.0.0",
   "description": "TypeScript types for Daggerheart game system",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
