@@ -8,7 +8,8 @@ type CurrencyProps = {
 };
 
 type CurrencySelectorProps = {
-  slots?: number;
+  label?: string;
+  slots: number;
   count: number;
   adjustCount: (difference: number) => void;
 };
@@ -18,7 +19,8 @@ const BAGS_PER_CHEST = 10;
 const HANDFULS_PER_CHEST = HANDFULS_PER_BAG * BAGS_PER_CHEST;
 
 const CurrencySelector: React.FC<CurrencySelectorProps> = ({
-  slots = 10,
+  label,
+  slots,
   count,
   adjustCount,
 }) => {
@@ -30,6 +32,11 @@ const CurrencySelector: React.FC<CurrencySelectorProps> = ({
 
   return (
     <div>
+      {label && (
+        <span>
+          {label} ({count}):{" "}
+        </span>
+      )}
       <button
         className={styles.currencySelectorButtonMinus}
         onClick={() => onClick(count - 1)}
@@ -80,7 +87,6 @@ export const Currency: React.FC<CurrencyProps> = ({ total, setTotal }) => {
   };
 
   useEffect(() => {
-    console.log("TOTAL UPDATED, RECALCULATING");
     const { handfuls, bags, chests } = calculateCurrencyBreakdown(total);
     setHandfuls(handfuls);
     setBags(bags);
@@ -90,21 +96,20 @@ export const Currency: React.FC<CurrencyProps> = ({ total, setTotal }) => {
   return (
     <div className={styles.currency}>
       <CurrencySelector
-        slots={10}
+        label="handfuls"
+        slots={HANDFULS_PER_BAG - 1}
         count={handfuls}
         adjustCount={handleAdjustHandfuls}
       />
       <CurrencySelector
-        slots={10}
+        label="bags"
+        slots={BAGS_PER_CHEST - 1}
         count={bags}
         adjustCount={handleAdjustBags}
       />
-      handfuls: {handfuls}, bags: {bags}, chests: {chests}
+      chests: {chests}
+      <br />
+      total: {total}
     </div>
   );
 };
-
-// 457
-// 4 chests
-// 5 bags
-// 7 handfuls

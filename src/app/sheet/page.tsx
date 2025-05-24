@@ -53,7 +53,7 @@ const CharacterSheet = () => {
 
   const setCurrency = (newCurrency: number) => {
     dispatch({
-      currency: newCurrency,
+      currency: Math.max(0, newCurrency),
     });
   };
 
