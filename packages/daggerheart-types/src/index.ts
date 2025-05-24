@@ -2,7 +2,7 @@
 // Run `npm run sync-types` to update from source files.
 
 // === Character Sheet Types ===
-export type TraitModifier = number | "" | "-" | "+";
+export type TraitModifier = number | "" | "-";
 export type Traits = {
   agility: TraitModifier;
   strength: TraitModifier;
@@ -11,16 +11,66 @@ export type Traits = {
   presence: TraitModifier;
   knowledge: TraitModifier;
 };
+export type Hitpoints = {
+  marked: number;
+  slots: number;
+};
+export type Stress = {
+  marked: number;
+  slots: number;
+};
+export type Armor = {
+  marked: number;
+  score: number;
+  thresholds: Thresholds;
+};
+export type Experience = {
+  descriptor: string;
+  modifier: number;
+};
+export type Questions = {
+  question: string;
+  answer: string;
+};
+export interface Advancement {}
+export interface AdvancementTier2 extends Advancement {}
+export interface AdvancementTier3 extends Advancement {}
+export interface AdvancementTier4 extends Advancement {}
 export type CharacterSheet = {
   name: string;
+  level: Level;
   traits: Traits;
   currency: number;
+  hope: number;
+  evasion: number; 
+  armor: Armor; 
+  hitpoints: Hitpoints; 
+  stress: Stress;
+  primaryWeapon?: Extract<ItemWeapon, { slot: "primary" }>;
+  secondaryWeapon?: Extract<ItemWeapon, { slot: "secondary" }>;
+  equippedArmor?: ItemArmor;
+  inventory: Item[];
+  class?: Class;
+  ancestry?: Ancestry;
+  community?: Community;
+  experience: Experience[];
+  characterDescription: {
+    clothes: string;
+    eyes: string;
+    body: string;
+    skin: string;
+    attitude: string;
+    other: string;
+  };
+  backgroundQuestions: BackgroundQuestions[];
+  connections: Questions[];
+  advancements: Advancement[];
 };
 
 // === Game System Types ===
-type CardType = "ability" | "spell" | "grimoire";
-type Level = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
-type Domain =
+export type CardType = "ability" | "spell" | "grimoire";
+export type Level = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+export type Domain =
   | "arcana"
   | "blade"
   | "bone"
@@ -30,23 +80,28 @@ type Domain =
   | "sage"
   | "splendor"
   | "valor";
-type Trait =
+export type Trait =
   | "agility"
   | "strength"
   | "finesse"
   | "instinct"
   | "presence"
   | "knowledge";
-type Range = "melee" | "very close" | "close" | "far" | "very far";
-type DamageType = "physical" | "magic";
-type Burden = "one-handed" | "two-handed";
+export type Range = "melee" | "very close" | "close" | "far" | "very far";
+export type DamageType = "physical" | "magic";
+export type Burden = "one-handed" | "two-handed";
+export interface Feature {
+  name: string;
+  description: string;
+  charges?: number;
+}
 export interface DomainCard {
   name: string;
   level: number;
   domain: Domain;
   type: CardType;
   recallCost: number;
-  feature: string; // feature description
+  feature: string; 
 }
 export interface Class {
   name: string;
@@ -54,46 +109,54 @@ export interface Class {
   subclasses: Subclass[];
   startingEvasionScore: number;
   startingHitPoints: number;
-  items: string[]; // class items
-  hopeFeature: Feature | Feature[]; // hope feature description
-  classFeature: Feature | Feature[]; // class feature(s) description
+  items: string[]; 
+  hopeFeature: Feature | Feature[]; 
+  classFeature: Feature | Feature[]; 
 }
 export interface Subclass {
   name: string;
-  foundationFeature: Feature | Feature[]; // foundation feature description
-  specializationFeature: Feature | Feature[]; // specialization feature description
-  masteryFeature: Feature | Feature[]; // mastery feature description
+  foundationFeature: Feature | Feature[]; 
+  specializationFeature: Feature | Feature[]; 
+  masteryFeature: Feature | Feature[]; 
 }
-export interface Feature {
-  name: string;
-  description: string;
-  charges?: number;
-  // cooldown?
-}
-export interface Ancestry {
-  id: string;
+export type Ancestry = {
   name: string;
   features: Feature | Feature[];
-}
-export interface Community {
-  id: string;
+};
+export type Community = {
   name: string;
   features: Feature | Feature[];
-}
-export interface Weapon {
+};
+export interface Item {
   name: string;
+  feature?: Feature | Feature[];
+}
+export interface ItemWeapon extends Item {
   type: "primary" | "secondary";
   trait: Trait;
   range: Range;
   damage: `${number}d${number}`;
   damageType: DamageType;
   burden: Burden;
-  feature?: Feature | Feature[];
 }
-export interface Armor {
-  name: string;
-  baseThresholdMajor: number;
-  baseThresholdSevere: number;
+export type Thresholds = {
+  major: number;
+  severe: number;
+};
+export interface ItemArmor extends Item {
+  baseThresholds: Thresholds;
   baseScore: number;
-  feature?: Feature | Feature[];
 }
+
+// === Constants ===
+export const MAX_ARMOR = 12;
+export const MAX_HOPE = 12;
+export const BASE_STRESS = 6;
+export const UNARMORED = (level: number = 1): Armor => ({
+  marked: 0,
+  score: 0,
+  thresholds: {
+    major: level * 1,
+    severe: level * 2,
+  },
+});

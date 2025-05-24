@@ -17,6 +17,7 @@ const targetFile = path.join(
 // Read the source files
 const characterSheetPath = path.join(sourceDir, "character-sheet.d.ts");
 const daggerheartPath = path.join(sourceDir, "daggerheart.d.ts");
+const constantsPath = path.join(sourceDir, "constants.ts");
 
 let output = [];
 
@@ -29,9 +30,14 @@ function processTypeFile(filePath, filename) {
 
   const content = fs.readFileSync(filePath, "utf8");
 
-  // Remove export/import statements and clean up
+  // Remove comments, export/import statements and clean up
   const cleaned = content
-    .replace(/^import.*$/gm, "") // Remove import statements
+    // Remove single-line and multiline import statements
+    .replace(/import[\s\S]*?from\s+['"][^'"]+['"];?/gm, "")
+    // Remove all single-line comments (// ...)
+    .replace(/\/\/.*$/gm, "")
+    // Remove all multi-line comments (/* ... */)
+    .replace(/\/\*[\s\S]*?\*\//gm, "")
     .replace(/^export\s+/gm, "export ") // Normalize export statements
     .replace(/^\s*$/gm, "") // Remove empty lines
     .split("\n")
@@ -47,6 +53,7 @@ const characterSheetTypes = processTypeFile(
   "character-sheet.d.ts"
 );
 const daggerheartTypes = processTypeFile(daggerheartPath, "daggerheart.d.ts");
+const constantsTypes = processTypeFile(constantsPath, "constants.ts");
 
 // Build the output
 output.push("// This file is auto-generated. Do not edit manually.");
@@ -62,6 +69,12 @@ if (characterSheetTypes) {
 if (daggerheartTypes) {
   output.push("// === Game System Types ===");
   output.push(daggerheartTypes);
+  output.push("");
+}
+
+if (constantsTypes) {
+  output.push("// === Constants ===");
+  output.push(constantsTypes);
   output.push("");
 }
 
