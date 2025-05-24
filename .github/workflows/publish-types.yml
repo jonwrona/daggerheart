@@ -131,32 +131,3 @@ jobs:
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create release
-        if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: types-v${{ steps.version.outputs.new_version }}
-          name: Daggerheart Types v${{ steps.version.outputs.new_version }}
-          files: |
-            packages/daggerheart-types/*
-            packages/daggerheart-types/src
-            packages/daggerheart-types/dist
-            
-          body: |
-            Published Daggerheart Types package to GitHub Packages
-
-            ## Installation
-            ```bash
-            npm install @jonwrona/daggerheart-types
-            ```
-
-            ## Changes
-            ${{ github.event_name == 'push' && 'Auto-published due to type changes in main branch' || 'Manual release' }}
-
-            **Commit:** ${{ github.event.head_commit.message || github.event.commits[0].message }}
-            **Files changed:** ${{ github.event_name == 'push' && 'src/types/daggerheart/' || 'Manual trigger' }}
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
