@@ -48,7 +48,7 @@ jobs:
       - name: Update version (if manual trigger)
         if: github.event_name == 'workflow_dispatch'
         working-directory: packages/daggerheart-types
-        run: bun run version-bump ${{ github.event.inputs.version }}
+        run: npm version ${{ github.event.inputs.version }} --no-git-tag-version
 
       - name: Publish to GitHub Packages
         working-directory: packages/daggerheart-types
