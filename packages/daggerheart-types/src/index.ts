@@ -42,9 +42,9 @@ export type CharacterSheet = {
   traits: Traits;
   currency: number;
   hope: number;
-  evasion: number; 
-  armor: Armor; 
-  hitpoints: Hitpoints; 
+  evasion: number;
+  armor: Armor;
+  hitpoints: Hitpoints;
   stress: Stress;
   primaryWeapon?: Extract<ItemWeapon, { slot: "primary" }>;
   secondaryWeapon?: Extract<ItemWeapon, { slot: "secondary" }>;
@@ -62,7 +62,7 @@ export type CharacterSheet = {
     attitude: string;
     other: string;
   };
-  backgroundQuestions: BackgroundQuestions[];
+  backgroundQuestions: Questions[];
   connections: Questions[];
   advancements: Advancement[];
 };
@@ -101,7 +101,7 @@ export interface DomainCard {
   domain: Domain;
   type: CardType;
   recallCost: number;
-  feature: string; 
+  feature: string;
 }
 export interface Class {
   name: string;
@@ -109,15 +109,15 @@ export interface Class {
   subclasses: Subclass[];
   startingEvasionScore: number;
   startingHitPoints: number;
-  items: string[]; 
-  hopeFeature: Feature | Feature[]; 
-  classFeature: Feature | Feature[]; 
+  items: string[];
+  hopeFeature: Feature | Feature[];
+  classFeature: Feature | Feature[];
 }
 export interface Subclass {
   name: string;
-  foundationFeature: Feature | Feature[]; 
-  specializationFeature: Feature | Feature[]; 
-  masteryFeature: Feature | Feature[]; 
+  foundationFeature: Feature | Feature[];
+  specializationFeature: Feature | Feature[];
+  masteryFeature: Feature | Feature[];
 }
 export type Ancestry = {
   name: string;

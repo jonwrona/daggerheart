@@ -85,7 +85,7 @@ export type CharacterSheet = {
     attitude: string;
     other: string;
   };
-  backgroundQuestions: BackgroundQuestions[];
+  backgroundQuestions: Questions[];
   connections: Questions[];
   advancements: Advancement[];
 };
