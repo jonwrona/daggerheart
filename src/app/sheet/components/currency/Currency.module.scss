@@ -56,6 +56,12 @@
     gap: 0.25rem;
     height: calc(var(--size) * 1.5);
     align-items: center;
+    background: linear-gradient(
+      90deg,
+      var(--secondary-background) 0%,
+      var(--secondary-background) var(--percent, 0%),
+      transparent var(--percent, 0%)
+    );
   }
 
   .chestIcon {

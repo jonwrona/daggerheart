@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Icon } from "@/components/icon/Icon";
-
+import type { CSSPropertiesWithVariables } from "@/types/react";
 import styles from "./Currency.module.scss";
 import { clamp } from "@/utils/clamp";
 
@@ -153,11 +153,18 @@ export const Currency: React.FC<CurrencyProps> = ({
           label="Remove a chest"
           icon="remove"
         />
-        <div className={styles.chestsContent}>
+        <div
+          className={styles.chestsContent}
+          style={
+            {
+              "--percent": `${(total / max) * 100}%`,
+            } as CSSPropertiesWithVariables
+          }
+        >
           <Icon name="box" className={styles.chestIcon} filled={chests > 0} />
-          <div>
+          <span>
             {chests} {chests !== 1 ? "chests" : "chest"}, {total} total
-          </div>
+          </span>
         </div>
         <CurrencyIncrementButton
           onClick={() => handleAdjustChests(1)}
