@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Icon } from "@/components/icon/Icon";
-import type { CSSPropertiesWithVariables } from "@/types/react";
+import type { CSSPropertiesWithVariables } from "@/types/types";
 import styles from "./Currency.module.scss";
 import { clamp } from "@/utils/clamp";
 

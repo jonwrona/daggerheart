@@ -1,7 +1,7 @@
 import { createContext, useContext, useMemo, useState } from "react";
 import { DiceRollResult } from "../dice-roll/DiceRoll";
 import styles from "./RollLog.module.scss";
-import { CSSPropertiesWithVariables } from "@/types/react";
+import { CSSPropertiesWithVariables } from "@/types/types";
 
 export interface RollLogEntry extends DiceRollResult {
   id: string;

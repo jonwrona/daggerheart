@@ -1,6 +1,6 @@
 import React from "react";
 
-import { CSSPropertiesWithVariables } from "@/types/react";
+import { CSSPropertiesWithVariables } from "@/types/types";
 
 import "material-symbols";
 import styles from "./Icon.module.scss";

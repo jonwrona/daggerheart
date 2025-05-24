@@ -1,6 +1,6 @@
-type CardType = "ability" | "spell" | "grimoire";
-type Level = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
-type Domain =
+export type CardType = "ability" | "spell" | "grimoire";
+export type Level = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+export type Domain =
   | "arcana"
   | "blade"
   | "bone"
@@ -11,7 +11,7 @@ type Domain =
   | "splendor"
   | "valor";
 
-type Trait =
+export type Trait =
   | "agility"
   | "strength"
   | "finesse"
@@ -19,11 +19,18 @@ type Trait =
   | "presence"
   | "knowledge";
 
-type Range = "melee" | "very close" | "close" | "far" | "very far";
+export type Range = "melee" | "very close" | "close" | "far" | "very far";
 
-type DamageType = "physical" | "magic";
+export type DamageType = "physical" | "magic";
 
-type Burden = "one-handed" | "two-handed";
+export type Burden = "one-handed" | "two-handed";
+
+export interface Feature {
+  name: string;
+  description: string;
+  charges?: number;
+  // cooldown?
+}
 
 export interface DomainCard {
   name: string;
@@ -52,38 +59,36 @@ export interface Subclass {
   masteryFeature: Feature | Feature[]; // mastery feature description
 }
 
-export interface Feature {
-  name: string;
-  description: string;
-  charges?: number;
-  // cooldown?
-}
-
-export interface Ancestry {
+export type Ancestry = {
   name: string;
   features: Feature | Feature[];
-}
+};
 
-export interface Community {
+export type Community = {
   name: string;
   features: Feature | Feature[];
+};
+
+export interface Item {
+  name: string;
+  feature?: Feature | Feature[];
 }
 
-export interface Weapon {
-  name: string;
+export interface ItemWeapon extends Item {
   type: "primary" | "secondary";
   trait: Trait;
   range: Range;
   damage: `${number}d${number}`;
   damageType: DamageType;
   burden: Burden;
-  feature?: Feature | Feature[];
 }
 
-export interface Armor {
-  name: string;
-  baseThresholdMajor: number;
-  baseThresholdSevere: number;
+export type Thresholds = {
+  major: number;
+  severe: number;
+};
+
+export interface ItemArmor extends Item {
+  baseThresholds: Thresholds;
   baseScore: number;
-  feature?: Feature | Feature[];
 }
