@@ -73,6 +73,7 @@ export interface Community {
 
 export interface Weapon {
   name: string;
+  type: "primary" | "secondary";
   trait: Trait;
   range: Range;
   damage: `${number}d${number}`;
