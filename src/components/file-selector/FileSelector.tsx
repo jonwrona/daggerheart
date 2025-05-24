@@ -18,8 +18,9 @@ export const FileSelector: React.FC<FileSelectorProps> = ({
       try {
         const json = JSON.parse(e.target?.result as string);
         handleLoad(json);
-      } catch (_) {
+      } catch (err) {
         alert("Invalid character sheet save file.");
+        console.error(err);
       }
     };
     reader.readAsText(file);
