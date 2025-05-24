@@ -153,11 +153,12 @@ export const Currency: React.FC<CurrencyProps> = ({
           label="Remove a chest"
           icon="remove"
         />
-        <Icon name="box" className={styles.chestIcon} />
-        <div>
-          {chests} {chests !== 1 ? "chests" : "chest"}, {total} total
+        <div className={styles.chestsContent}>
+          <Icon name="box" className={styles.chestIcon} filled={chests > 0} />
+          <div>
+            {chests} {chests !== 1 ? "chests" : "chest"}, {total} total
+          </div>
         </div>
-        <div style={{ flex: "1 1 0" }} />
         <CurrencyIncrementButton
           onClick={() => handleAdjustChests(1)}
           label="Add a chest"

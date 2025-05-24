@@ -48,12 +48,21 @@
 .chests {
   display: flex;
 
+  .chestsContent {
+    flex: 1 0 0;
+    border-radius: 0.25rem;
+    border: 1px solid var(--border-subtle);
+    display: flex;
+    gap: 0.25rem;
+    height: calc(var(--size) * 1.5);
+    align-items: center;
+  }
+
   .chestIcon {
     height: calc(var(--size) * 1.5);
     width: calc(var(--size) * 1.5);
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid transparent;
   }
 }
