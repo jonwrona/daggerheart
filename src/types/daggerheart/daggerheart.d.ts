@@ -79,5 +79,13 @@ export interface Weapon {
   damage: `${number}d${number}`;
   damageType: DamageType;
   burden: Burden;
-  feature?: Feature;
+  feature?: Feature | Feature[];
+}
+
+export interface Armor {
+  name: string;
+  baseThresholdMajor: number;
+  baseThresholdSevere: number;
+  baseScore: number;
+  feature?: Feature | Feature[];
 }
