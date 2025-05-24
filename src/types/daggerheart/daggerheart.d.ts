@@ -11,8 +11,21 @@ type Domain =
   | "splendor"
   | "valor";
 
+type Trait =
+  | "agility"
+  | "strength"
+  | "finesse"
+  | "instinct"
+  | "presence"
+  | "knowledge";
+
+type Range = "melee" | "very close" | "close" | "far" | "very far";
+
+type DamageType = "physical" | "magic";
+
+type Burden = "one-handed" | "two-handed";
+
 export interface DomainCard {
-  id: string;
   name: string;
   level: number;
   domain: Domain;
@@ -22,7 +35,6 @@ export interface DomainCard {
 }
 
 export interface Class {
-  id: string;
   name: string;
   domains: Domain[];
   subclasses: Subclass[];
@@ -34,7 +46,6 @@ export interface Class {
 }
 
 export interface Subclass {
-  id: string;
   name: string;
   foundationFeature: Feature | Feature[]; // foundation feature description
   specializationFeature: Feature | Feature[]; // specialization feature description
@@ -42,7 +53,6 @@ export interface Subclass {
 }
 
 export interface Feature {
-  id: string;
   name: string;
   description: string;
   charges?: number;
@@ -59,4 +69,14 @@ export interface Community {
   id: string;
   name: string;
   features: Feature | Feature[];
+}
+
+export interface Weapon {
+  name: string;
+  trait: Trait;
+  range: Range;
+  damage: `${number}d${number}`;
+  damageType: DamageType;
+  burden: Burden;
+  feature?: Feature;
 }
