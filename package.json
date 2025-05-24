@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@jonwrona/daggerheart-types": "^0.0.2",
     "@uidotdev/usehooks": "^2.4.1",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",

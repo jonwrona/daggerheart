@@ -65,12 +65,6 @@ if (daggerheartTypes) {
   output.push("");
 }
 
-// Add package version
-output.push("// === Package Metadata ===");
-output.push(
-  "export const PACKAGE_VERSION = require('../package.json').version;"
-);
-
 // Write the output
 const finalContent = output.join("\n");
 fs.writeFileSync(targetFile, finalContent);

@@ -97,6 +97,3 @@ export interface Armor {
   baseScore: number;
   feature?: Feature | Feature[];
 }
-
-// === Package Metadata ===
-export const PACKAGE_VERSION = require('../package.json').version;
