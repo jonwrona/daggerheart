@@ -42,7 +42,7 @@ jobs:
         with:
           node-version: "18"
           registry-url: "https://npm.pkg.github.com"
-          scope: "@your-username"
+          scope: "@jonwrona"
 
       - name: Install dependencies
         working-directory: packages/daggerheart-types
@@ -73,7 +73,7 @@ jobs:
         working-directory: packages/daggerheart-types
         run: |
           echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
-          echo "@your-username:registry=https://npm.pkg.github.com" >> .npmrc
+          echo "@jonwrona:registry=https://npm.pkg.github.com" >> .npmrc
 
       - name: Check if version already exists
         working-directory: packages/daggerheart-types
@@ -83,7 +83,7 @@ jobs:
           echo "Current version: $PACKAGE_VERSION"
 
           # Check if this version already exists
-          if npm view @your-username/daggerheart-types@$PACKAGE_VERSION version 2>/dev/null; then
+          if npm view @jonwrona/daggerheart-types@$PACKAGE_VERSION version 2>/dev/null; then
             echo "Version $PACKAGE_VERSION already exists!"
             echo "already-exists=true" >> $GITHUB_OUTPUT
           else
@@ -113,7 +113,7 @@ jobs:
 
             ## Installation
             ```bash
-            npm install @your-username/daggerheart-types
+            npm install @jonwrona/daggerheart-types
             ```
           draft: false
           prerelease: false
