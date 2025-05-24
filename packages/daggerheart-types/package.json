@@ -9,6 +9,7 @@
     "README.md"
   ],
   "scripts": {
+    "sync-types": "node ../../scripts/sync-types.js",
     "build": "tsc",
     "clean": "rm -rf dist",
     "prepublishOnly": "bun run clean && bun run build"

@@ -6,6 +6,19 @@ on:
       - main
     paths:
       - "src/types/daggerheart/**" # Trigger when types change
+    tags:
+      - "types-v*" # Only publish when tags like 'types-v1.0.0' are pushed
+  workflow_dispatch: # Allow manual triggering
+    inputs:
+      version:
+        description: "Version to publish"
+        required: true
+        default: "patch"
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
 
 # Prevent concurrent runs
 concurrency:
@@ -39,30 +52,60 @@ jobs:
         working-directory: packages/daggerheart-types
         run: bun install
 
+      - name: Sync types from source
+        working-directory: packages/daggerheart-types
+        run: bun run sync-types
+
       - name: Build types package
         working-directory: packages/daggerheart-types
         run: bun run build
 
-      - name: Update version
+      - name: Update version (auto-bump for type changes)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         working-directory: packages/daggerheart-types
         run: |
           npm version patch --no-git-tag-version
           echo "new_version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+        id: version-auto
+
+      - name: Update version (if manual trigger)
+        if: github.event_name == 'workflow_dispatch'
+        working-directory: packages/daggerheart-types
+        run: |
+          npm version ${{ github.event.inputs.version }} --no-git-tag-version
+          echo "new_version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+        id: version-manual
+
+      - name: Set version output
+        run: |
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            echo "new_version=${{ steps.version-auto.outputs.new_version }}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "new_version=${{ steps.version-manual.outputs.new_version }}" >> $GITHUB_OUTPUT
+          fi
         id: version
 
       - name: Commit version bump
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add packages/daggerheart-types/package.json
-          git commit -m "chore: bump types package version to v${{ steps.version.outputs.new_version }}"
+
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            git commit -m "chore: auto-bump types package to v${{ steps.version.outputs.new_version }} (types changed)"
+          else
+            git commit -m "chore: bump types package version to v${{ steps.version.outputs.new_version }}"
+          fi
+
           git push
 
       - name: Configure npm authentication
         working-directory: packages/daggerheart-types
         run: |
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > .npmrc
           echo "@jonwrona:registry=https://npm.pkg.github.com" >> .npmrc
+          echo "registry=https://registry.npmjs.org/" >> .npmrc
 
       - name: Check if version already exists
         working-directory: packages/daggerheart-types
@@ -85,11 +128,12 @@ jobs:
         working-directory: packages/daggerheart-types
         run: |
           echo "Publishing version $(node -p "require('./package.json').version")"
-          npm publish
+          npm publish --dry-run  # Remove --dry-run when ready
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create release
+        if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
         uses: softprops/action-gh-release@v1
         with:
           tag_name: types-v${{ steps.version.outputs.new_version }}
