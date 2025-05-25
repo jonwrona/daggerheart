@@ -1,5 +1,5 @@
 "use client";
-import { useReducer, useState, useEffect, useRef } from "react";
+import { useReducer, useState, useEffect, useRef, useContext } from "react";
 import { CharacterSheetMenu } from "./components/character-sheet-menu/CharacterSheetMenu";
 import { DiceRoll } from "./components/dice-roll/DiceRoll";
 import { RollLog, RollLogProvider } from "./components/roll-log/RollLog";
@@ -10,12 +10,13 @@ import type {
   TraitModifier,
   Traits,
 } from "@/types/daggerheart/character-sheet";
-import { blankCharacterSheet } from "@/data/blankCharacterSheet";
+import { blankCharacterSheet } from "@/data/characterSheet";
 import styles from "./page.module.scss";
 import { saveJSONToFile } from "@/utils/jsonFileManagement";
 import { FileSelector } from "@/components/file-selector/FileSelector";
 import { AutoWidthInput } from "@/components/auto-width-input/AutoWidthInput";
 import slugify from "slugify";
+import { DataContext } from "@/components/data-context/DataContext";
 
 const reducer = (state: CharacterSheet, updated: Partial<CharacterSheet>) => {
   return { ...state, ...updated };
@@ -24,6 +25,7 @@ const reducer = (state: CharacterSheet, updated: Partial<CharacterSheet>) => {
 const LOCAL_STORAGE_KEY = "characterSheet";
 
 const CharacterSheet = () => {
+  const { data } = useContext(DataContext);
   const [isLoading, setIsLoading] = useState(true);
   const [state, dispatch] = useReducer(reducer, blankCharacterSheet);
   const fileSelectorRef = useRef<HTMLInputElement>(null);

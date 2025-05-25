@@ -7,7 +7,7 @@ import {
   type Dispatch,
 } from "react";
 import type { Settings } from "@/types/settings";
-import { defaultSettings, LOCAL_STORAGE_KEY } from "@/data/defaultSettings";
+import { defaultSettings, LOCAL_STORAGE_KEY } from "@/data/settings";
 
 interface SettingsProviderProps {
   children: React.ReactNode;

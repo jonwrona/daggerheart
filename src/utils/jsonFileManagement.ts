@@ -8,7 +8,7 @@ export const saveJSONToFile = (
 
   const a = document.createElement("a");
   a.href = url;
-  a.download = `${filename}.json`;
+  a.download = `${filename}.dh`; // custom daggerheart extension
   a.click();
 
   URL.revokeObjectURL(url);

@@ -3,6 +3,7 @@ import { Spline_Sans_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SettingsProvider } from "@/components/settings-context/SettingsContext";
+import { DataProvider } from "@/components/data-context/DataContext";
 import { ThemeSetter } from "@/components/theme-setter/ThemeSetter";
 import "./reset.scss";
 import "./globals.scss";
@@ -31,8 +32,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={fontVariables}>
         <SettingsProvider>
-          {children}
-          <ThemeSetter />
+          <DataProvider>
+            {children}
+            <ThemeSetter />
+          </DataProvider>
         </SettingsProvider>
         <Analytics />
         <SpeedInsights />
