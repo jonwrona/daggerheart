@@ -76,6 +76,7 @@ export const DataPackTree = ({
 
   return (
     <div className={styles.container}>
+      <h1>Data packs</h1>
       {(dataPacks || [])
         .sort((a, b) => a.name.localeCompare(b.name))
         .map(({ uuid, name }) =>

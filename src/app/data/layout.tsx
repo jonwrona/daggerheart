@@ -51,7 +51,9 @@ export default function DataLayout({
     if (db && confirmDelete === "DELETE") {
       const deleted = await db.deleteValue("data_packs", id);
       if (deleted) {
+        // Remove the deleted data pack from the state
         setDataPacks(dataPacks.filter((pack) => pack.uuid !== id));
+        redirect("/data");
       }
     }
   };
@@ -59,7 +61,6 @@ export default function DataLayout({
   return (
     <DataPackProvider>
       <DataMenu handleNew={handleNew} />
-      <h1>Data Packs</h1>
       <div className={styles.layout}>
         <DataPackTree dataPacks={dataPacks} handleDelete={handleDelete} />
         <main className={styles.main}>{children}</main>
