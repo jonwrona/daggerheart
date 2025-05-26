@@ -26,7 +26,7 @@ export default function DataLayout({
 
   return (
     <>
-      <h1>{dataPack?.name || "Loading..."}</h1>
+      <h2>{dataPack?.name || "Loading..."}</h2>
       <div>{children}</div>
     </>
   );

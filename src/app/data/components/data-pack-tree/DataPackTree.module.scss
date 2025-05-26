@@ -26,11 +26,15 @@
   flex-direction: column;
   gap: 0.5rem;
 
+  .dataPackName {
+    display: inline-flex;
+    gap: 1rem;
+  }
+
   .name {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 100%;
 
     &[data-active="true"] {
       font-weight: 600;

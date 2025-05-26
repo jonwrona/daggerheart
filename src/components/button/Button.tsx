@@ -1,24 +1,28 @@
 import styles from "./Button.module.scss";
 import { CSSPropertiesWithVariables } from "@/types/types";
 
-interface ButtonProps {
-  children?: React.ReactNode;
-  className?: string;
-  style?: CSSPropertiesWithVariables;
-  onClick: () => void;
-  disabled?: boolean;
-}
-
-export const Button: React.FC<ButtonProps> = ({
+export const Button = ({
   children,
   className,
+  kind = "primary",
+  iconOnly = false,
   style,
   onClick,
   disabled = false,
-}) => {
+}: {
+  children: React.ReactNode;
+  className?: string;
+  kind: string;
+  iconOnly: boolean;
+  style?: CSSPropertiesWithVariables;
+  onClick: () => void;
+  disabled?: boolean;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
     <button
-      className={`${styles.button} ${className}`}
+      className={`${styles.button} ${styles[kind]} ${
+        iconOnly && styles.icon
+      } ${className}`}
       style={style}
       onClick={onClick}
       disabled={disabled}

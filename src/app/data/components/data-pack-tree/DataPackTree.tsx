@@ -1,17 +1,17 @@
 "use client";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useMemo } from "react";
 import Link from "next/link";
-import { redirect, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 
-import { Button } from "@/components/button/Button";
-import { DatabaseContext } from "@/components/database-context/DatabaseContext";
-
-import { createDataPack } from "@/data/datapack";
 import { Database } from "@/db";
 import { StoreValue } from "idb";
+import { DatabaseContext } from "@/components/database-context/DatabaseContext";
 import { UUID } from "crypto";
 
 import styles from "./DataPackTree.module.scss";
+import { Icon } from "@/components/icon/Icon";
+import { Button } from "@/components/button/Button";
+import { DataPackContext } from "../data-pack-context/DataPackContext";
 
 const dataPackPages = [
   { slug: "domains", label: "Domains" },
@@ -23,20 +23,29 @@ const DataPackNavigation = ({
   id,
   name,
   currentPage,
+  handleDelete,
 }: {
   id: UUID;
   name: string;
   currentPage: string;
+  handleDelete: () => void;
 }) => {
+  const db = useContext(DatabaseContext);
+
   return (
     <div className={styles.dataPackNavigation}>
-      <Link
-        href={`/data/${id}`}
-        className={styles.name}
-        data-active={!currentPage}
-      >
-        {name}
-      </Link>
+      <div className={styles.dataPackName}>
+        <Link
+          href={`/data/${id}`}
+          className={styles.name}
+          data-active={!currentPage}
+        >
+          {name}
+        </Link>
+        <Button iconOnly kind="ghost" onClick={handleDelete}>
+          <Icon name="delete" size="1rem" />
+        </Button>
+      </div>
       {dataPackPages.map(({ slug, label }) => (
         <Link
           key={`${id}_${slug}`}
@@ -51,49 +60,23 @@ const DataPackNavigation = ({
   );
 };
 
-export const DataPackTree = () => {
+export const DataPackTree = ({
+  dataPacks,
+  handleDelete,
+}: {
+  dataPacks: StoreValue<Database, "data_packs">[];
+  handleDelete: (id: UUID) => void;
+}) => {
   const pathname = usePathname();
-  const db = useContext(DatabaseContext);
-  const [dataPacks, setDataPacks] = useState<
-    StoreValue<Database, "data_packs">[]
-  >([]);
 
   const [pathID, pathPage] = useMemo(() => {
     const pathParts = pathname.split("/");
     return pathParts.slice(2);
   }, [pathname]);
 
-  useEffect(() => {
-    (async () => {
-      if (db) {
-        const packs = await db.getAllValue("data_packs");
-        if (packs) setDataPacks(packs);
-      }
-    })();
-  }, [db]);
-
-  const handleCreate = async () => {
-    const name = prompt(
-      "Please enter a name for your datapack",
-      "New datapack"
-    );
-    if (db) {
-      const created = await createDataPack(db, name || undefined);
-      if (created) {
-        setDataPacks([...dataPacks, created]);
-        redirect(`/data/${created.uuid}`);
-      }
-    }
-  };
-
-  // const handleDelete = async (uuid: UUID) => {};
-
   return (
     <div className={styles.container}>
-      <Button onClick={handleCreate} disabled={!db}>
-        New Datapack
-      </Button>
-      {dataPacks
+      {(dataPacks || [])
         .sort((a, b) => a.name.localeCompare(b.name))
         .map(({ uuid, name }) =>
           uuid === pathID ? (
@@ -102,6 +85,7 @@ export const DataPackTree = () => {
               id={uuid}
               name={name}
               currentPage={pathPage}
+              handleDelete={() => handleDelete(uuid)}
             />
           ) : (
             <Link key={uuid} href={`/data/${uuid}`} className={styles.dataPack}>

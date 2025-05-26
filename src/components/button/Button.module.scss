@@ -1,0 +1,26 @@
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 0.25rem;
+  cursor: pointer;
+
+  &.ghost {
+    border: 0;
+    background: transparent;
+    color: var(--foreground);
+    padding: 0.25rem;
+
+    &:hover {
+      background: var(--highlight);
+      color: var(--background);
+    }
+  }
+
+  &.icon {
+  }
+
+  &:disabled {
+    pointer-events: none;
+  }
+}
