@@ -72,7 +72,9 @@ export const DataPackTree = ({
 
   return (
     <div className={styles.container}>
-      <h1>Data packs</h1>
+      <Link href="/data" className={styles.title}>
+        <h1>Data packs</h1>
+      </Link>
       {dataPacks?.length ? (
         dataPacks
           .sort((a, b) => a.name.localeCompare(b.name))

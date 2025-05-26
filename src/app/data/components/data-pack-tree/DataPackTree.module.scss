@@ -5,6 +5,10 @@
   gap: 1rem;
 }
 
+.title:hover {
+  color: var(--highlight);
+}
+
 .dataPack {
   border-left: 1px solid var(--border-subtle);
   padding-left: 1rem;
@@ -42,6 +46,10 @@
       font-weight: 600;
       color: var(--primary);
     }
+
+    &:hover {
+      color: var(--highlight);
+    }
   }
 
   .pageLink {
@@ -54,6 +62,10 @@
     &[data-active="true"] {
       font-weight: 600;
       color: var(--primary);
+    }
+
+    &:hover {
+      color: var(--highlight);
     }
   }
 }
