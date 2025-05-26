@@ -22,9 +22,10 @@ const Settings = () => {
             { label: "Use browser setting", value: "browser" },
             { label: "Light mode", value: "light" },
             { label: "Dark mode", value: "dark" },
-            { label: "Custom theme", value: "custom", disabled: true },
           ]}
-          onChange={(value) => settingsDispatch({ theme: value })}
+          onChange={(value) =>
+            settingsDispatch({ theme: value as Settings["theme"] })
+          }
         />
         <div>
           <code style={{ whiteSpace: "pre" }}>
