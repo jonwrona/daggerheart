@@ -6,6 +6,7 @@ import { Button } from "@/components/button/Button";
 import { groupBy } from "@/utils/groupBy";
 import { StoreValue } from "idb";
 import { Database } from "@/db";
+import { CardType } from "@/types/daggerheart/daggerheart";
 import styles from "./page.module.scss";
 
 interface DomainCardsState {
@@ -60,7 +61,7 @@ const DataPackDomains = ({ params }: { params: Promise<{ id: UUID }> }) => {
         }
       }
     })();
-  }, [db]);
+  }, [id, db]);
 
   const handleCreate = async () => {
     if (db) {
@@ -70,7 +71,7 @@ const DataPackDomains = ({ params }: { params: Promise<{ id: UUID }> }) => {
           domain: "Test",
           name: "Domain Card",
           level: 1,
-          type: "ability",
+          type: "ability" as CardType,
           recallCost: 0,
           feature: "This is the domain card's feature.",
         };

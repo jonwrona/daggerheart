@@ -53,6 +53,7 @@ export default function DataLayout({
       if (deleted) {
         // Remove the deleted data pack from the state
         setDataPacks(dataPacks.filter((pack) => pack.uuid !== id));
+        db.deleteValuesByIndex("domain_cards", "byDataPackUUID", id);
         redirect("/data");
       }
     }

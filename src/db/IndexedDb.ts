@@ -2,7 +2,6 @@ import { type UUID } from "crypto";
 import type { IDBPDatabase, StoreNames, StoreValue, IndexNames } from "idb";
 import { openDB } from "idb";
 import { type Database, setup, ID_KEY } from ".";
-import { table } from "console";
 
 class IndexedDb {
   private database: string;
@@ -25,23 +24,21 @@ class IndexedDb {
       return false;
     }
   }
-
-  public async getValue(
-    tableName: StoreNames<Database>,
+  public async getValue<T extends StoreNames<Database>>(
+    tableName: T,
     id: UUID
-  ): Promise<StoreValue<Database, StoreNames<Database>> | undefined> {
+  ): Promise<StoreValue<Database, T> | undefined> {
     const tx = this.db.transaction(tableName, "readonly");
     const store = tx.objectStore(tableName);
     const result = await store.get(id);
     console.log("Get Data ", JSON.stringify(result));
     return result;
   }
-
-  public async getValueByIndex(
-    tableName: StoreNames<Database>,
-    indexName: IndexNames<Database, StoreNames<Database>>,
+  public async getValueByIndex<T extends StoreNames<Database>>(
+    tableName: T,
+    indexName: IndexNames<Database, T>,
     indexValue: UUID
-  ): Promise<StoreValue<Database, StoreNames<Database>> | undefined> {
+  ): Promise<StoreValue<Database, T> | undefined> {
     const tx = this.db.transaction(tableName, "readonly");
     const store = tx.objectStore(tableName);
     const index = store.index(indexName);
@@ -49,22 +46,20 @@ class IndexedDb {
     console.log("Get Data by Index", JSON.stringify(result));
     return result;
   }
-
-  public async getAllValue(
-    tableName: StoreNames<Database>
-  ): Promise<StoreValue<Database, StoreNames<Database>>[]> {
+  public async getAllValue<T extends StoreNames<Database>>(
+    tableName: T
+  ): Promise<StoreValue<Database, T>[]> {
     const tx = this.db.transaction(tableName, "readonly");
     const store = tx.objectStore(tableName);
     const result = await store.getAll();
     console.log("Get All Data", JSON.stringify(result));
     return result;
   }
-
-  public async getAllValueByIndex(
-    tableName: StoreNames<Database>,
-    indexName: IndexNames<Database, StoreNames<Database>>,
+  public async getAllValueByIndex<T extends StoreNames<Database>>(
+    tableName: T,
+    indexName: IndexNames<Database, T>,
     indexValue: UUID
-  ): Promise<StoreValue<Database, StoreNames<Database>>[]> {
+  ): Promise<StoreValue<Database, T>[]> {
     const tx = this.db.transaction(tableName, "readonly");
     const store = tx.objectStore(tableName);
     const index = store.index(indexName);
@@ -72,11 +67,10 @@ class IndexedDb {
     console.log("Get All Data by Index", JSON.stringify(result));
     return result;
   }
-
-  public async putValue(
-    tableName: StoreNames<Database>,
-    value: StoreValue<Database, StoreNames<Database>>
-  ): Promise<StoreValue<Database, StoreNames<Database>> | undefined> {
+  public async putValue<T extends StoreNames<Database>>(
+    tableName: T,
+    value: StoreValue<Database, T>
+  ): Promise<StoreValue<Database, T> | undefined> {
     console.log("Putting value", value);
     if (!value.hasOwnProperty(ID_KEY)) {
       value[ID_KEY] = crypto.randomUUID() as UUID;
@@ -87,11 +81,10 @@ class IndexedDb {
     const storeValue = store.get(result);
     return storeValue;
   }
-
-  public async putBulkValue(
-    tableName: StoreNames<Database>,
-    values: StoreValue<Database, StoreNames<Database>>[]
-  ): Promise<StoreValue<Database, StoreNames<Database>>[]> {
+  public async putBulkValue<T extends StoreNames<Database>>(
+    tableName: T,
+    values: StoreValue<Database, T>[]
+  ): Promise<StoreValue<Database, T>[]> {
     const tx = this.db.transaction(tableName, "readwrite");
     const store = tx.objectStore(tableName);
     for (const value of values) {
@@ -104,7 +97,10 @@ class IndexedDb {
     return this.getAllValue(tableName);
   }
 
-  public async deleteValue(tableName: StoreNames<Database>, id: UUID) {
+  public async deleteValue<T extends StoreNames<Database>>(
+    tableName: T,
+    id: UUID
+  ) {
     const tx = this.db.transaction(tableName, "readwrite");
     const store = tx.objectStore(tableName);
     const result = await store.get(id);
@@ -115,6 +111,27 @@ class IndexedDb {
     await store.delete(id);
     console.log("Deleted Data", id);
     return id;
+  }
+  public async deleteValuesByIndex<T extends StoreNames<Database>>(
+    tableName: T,
+    indexName: IndexNames<Database, T>,
+    indexValue: UUID
+  ): Promise<UUID[]> {
+    const tx = this.db.transaction(tableName, "readwrite");
+    const store = tx.objectStore(tableName);
+    const index = store.index(indexName);
+    const results = await index.getAll(IDBKeyRange.only(indexValue));
+    const deletedIds: UUID[] = [];
+
+    for (const result of results) {
+      if (result && result.hasOwnProperty(ID_KEY)) {
+        await store.delete(result[ID_KEY] as UUID);
+        deletedIds.push(result[ID_KEY] as UUID);
+      }
+    }
+
+    console.log("Deleted Data by Index", deletedIds);
+    return deletedIds;
   }
 }
 
