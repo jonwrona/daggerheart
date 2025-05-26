@@ -1,14 +1,12 @@
-import IndexedDb from ".";
+import IndexedDb from "./IndexedDb";
+import { STORES } from ".";
 
 const setup = async (): Promise<IndexedDb> => {
   const indexedDb = new IndexedDb("data");
 
-  await indexedDb.createObjectStore([
-    "characters",
-    "datapacks",
-    "domains",
-    "domain_cards",
-  ]);
+  console.log(Object.values(STORES));
+
+  await indexedDb.createObjectStore(Object.values(STORES));
 
   return indexedDb;
 };

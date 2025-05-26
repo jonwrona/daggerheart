@@ -6,6 +6,7 @@ interface ButtonProps {
   className?: string;
   style?: CSSPropertiesWithVariables;
   onClick: () => void;
+  disabled?: boolean;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -13,12 +14,14 @@ export const Button: React.FC<ButtonProps> = ({
   className,
   style,
   onClick,
+  disabled = false,
 }) => {
   return (
     <button
       className={`${styles.button} ${className}`}
       style={style}
       onClick={onClick}
+      disabled={disabled}
     >
       {children}
     </button>

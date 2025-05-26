@@ -1,3 +1,3 @@
 export interface Settings {
-  theme: string;
+  theme: "browser" | "dark" | "light";
 }
