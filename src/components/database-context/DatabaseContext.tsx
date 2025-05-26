@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useState, useEffect } from "react";
-import setup from "@/db/setup";
+import { connect } from "@/db";
 import IndexedDb from "@/db/IndexedDb";
 
 type DatabaseContext = IndexedDb | null;
@@ -19,7 +19,7 @@ export const DatabaseProvider: React.FC<DatabaseProviderProps> = ({
   useEffect(() => {
     if (typeof window !== "undefined") {
       (async () => {
-        const db = await setup();
+        const db = await connect();
         setDB(db);
       })();
     }

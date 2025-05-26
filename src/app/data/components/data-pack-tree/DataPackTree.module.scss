@@ -24,6 +24,7 @@
   padding-left: calc(1rem - 3px);
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 0.5rem;
 
   .dataPackName {
@@ -35,6 +36,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 100%;
 
     &[data-active="true"] {
       font-weight: 600;
@@ -47,7 +49,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 100%;
+    max-width: 100%;
 
     &[data-active="true"] {
       font-weight: 600;

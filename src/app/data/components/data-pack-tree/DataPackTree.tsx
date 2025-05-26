@@ -73,23 +73,31 @@ export const DataPackTree = ({
   return (
     <div className={styles.container}>
       <h1>Data packs</h1>
-      {(dataPacks || [])
-        .sort((a, b) => a.name.localeCompare(b.name))
-        .map(({ uuid, name }) =>
-          uuid === pathID ? (
-            <DataPackNavigation
-              key={uuid}
-              id={uuid}
-              name={name}
-              currentPage={pathPage}
-              handleDelete={() => handleDelete(uuid)}
-            />
-          ) : (
-            <Link key={uuid} href={`/data/${uuid}`} className={styles.dataPack}>
-              {name}
-            </Link>
+      {dataPacks?.length ? (
+        dataPacks
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .map(({ uuid, name }) =>
+            uuid === pathID ? (
+              <DataPackNavigation
+                key={uuid}
+                id={uuid}
+                name={name}
+                currentPage={pathPage}
+                handleDelete={() => handleDelete(uuid)}
+              />
+            ) : (
+              <Link
+                key={uuid}
+                href={`/data/${uuid}`}
+                className={styles.dataPack}
+              >
+                {name}
+              </Link>
+            )
           )
-        )}
+      ) : (
+        <p>No data packs</p>
+      )}
     </div>
   );
 };

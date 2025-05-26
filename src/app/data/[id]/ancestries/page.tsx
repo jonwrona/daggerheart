@@ -1,5 +1,9 @@
 const DataPackAncestries: React.FC = () => {
-  return <div>DataPack ancestries</div>;
+  return (
+    <>
+      <h3>Ancestries</h3>
+    </>
+  );
 };
 
 export default DataPackAncestries;

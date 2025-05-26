@@ -12,8 +12,8 @@ export const Button = ({
 }: {
   children: React.ReactNode;
   className?: string;
-  kind: string;
-  iconOnly: boolean;
+  kind?: string;
+  iconOnly?: boolean;
   style?: CSSPropertiesWithVariables;
   onClick: () => void;
   disabled?: boolean;

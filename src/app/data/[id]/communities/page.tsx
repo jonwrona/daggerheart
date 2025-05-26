@@ -1,5 +1,9 @@
 const DataPackCommunities: React.FC = () => {
-  return <div>DataPack communities</div>;
+  return (
+    <>
+      <h3>Communities</h3>
+    </>
+  );
 };
 
 export default DataPackCommunities;

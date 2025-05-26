@@ -1,15 +1,5 @@
 export type CardType = "ability" | "spell" | "grimoire";
 export type Level = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
-export type Domain =
-  | "arcana"
-  | "blade"
-  | "bone"
-  | "codex"
-  | "grace"
-  | "midnight"
-  | "sage"
-  | "splendor"
-  | "valor";
 
 export type Trait =
   | "agility"
@@ -35,7 +25,7 @@ export interface Feature {
 export interface DomainCard {
   name: string;
   level: number;
-  domain: Domain;
+  domain: string;
   type: CardType;
   recallCost: number;
   feature: string; // feature description
@@ -43,7 +33,7 @@ export interface DomainCard {
 
 export interface Class {
   name: string;
-  domains: Domain[];
+  domains: string[];
   subclasses: Subclass[];
   startingEvasionScore: number;
   startingHitPoints: number;
