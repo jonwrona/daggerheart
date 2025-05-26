@@ -161,7 +161,11 @@ export const Currency: React.FC<CurrencyProps> = ({
             } as CSSPropertiesWithVariables
           }
         >
-          <Icon name="box" className={styles.chestIcon} filled={chests > 0} />
+          <Icon
+            name="package_2"
+            className={styles.chestIcon}
+            filled={chests > 0}
+          />
           <span>
             {chests} {chests !== 1 ? "chests" : "chest"}, {total} total
           </span>
