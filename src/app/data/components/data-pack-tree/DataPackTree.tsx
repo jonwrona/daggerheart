@@ -5,10 +5,9 @@ import { redirect, usePathname } from "next/navigation";
 
 import { Button } from "@/components/button/Button";
 import { DatabaseContext } from "@/components/database-context/DatabaseContext";
-import { DataPackContext } from "../data-pack-context/DataPackContext";
 
 import { createDataPack } from "@/data/datapack";
-import { Database, STORES } from "@/db";
+import { Database } from "@/db";
 import { StoreValue } from "idb";
 import { UUID } from "crypto";
 
@@ -66,31 +65,28 @@ export const DataPackTree = () => {
 
   useEffect(() => {
     (async () => {
-      const packs = await fetchDataPacks();
-      packs && setDataPacks(packs);
+      if (db) {
+        const packs = await db.getAllValue("data_packs");
+        if (packs) setDataPacks(packs);
+      }
     })();
   }, [db]);
 
-  const fetchDataPacks = async () => {
-    if (db) {
-      const packs = await db.getAllValue(STORES.DATA_PACKS);
-      return packs;
-    }
-  };
-
   const handleCreate = async () => {
-    let name = prompt(
+    const name = prompt(
       "Please enter a name for your datapack",
-      "New datapack name"
+      "New datapack"
     );
     if (db) {
       const created = await createDataPack(db, name || undefined);
-      setDataPacks([...dataPacks, created]);
-      redirect(`/data/${created.uuid}`);
+      if (created) {
+        setDataPacks([...dataPacks, created]);
+        redirect(`/data/${created.uuid}`);
+      }
     }
   };
 
-  const handleDelete = async (uuid: UUID) => {};
+  // const handleDelete = async (uuid: UUID) => {};
 
   return (
     <div className={styles.container}>

@@ -7,7 +7,7 @@ const ID_KEY = "uuid";
 
 class IndexedDb {
   private database: string;
-  private db: any;
+  private db!: IDBPDatabase<Database>;
 
   constructor(database: string) {
     this.database = database;
@@ -30,14 +30,15 @@ class IndexedDb {
       });
       return true;
     } catch (error) {
+      console.error(error);
       return false;
     }
   }
 
   public async getValue(
-    tableName: string,
+    tableName: StoreNames<Database>,
     id: UUID
-  ): Promise<StoreValue<Database, StoreNames<Database>>> {
+  ): Promise<StoreValue<Database, StoreNames<Database>> | undefined> {
     const tx = this.db.transaction(tableName, "readonly");
     const store = tx.objectStore(tableName);
     const result = await store.get(id);
@@ -46,7 +47,7 @@ class IndexedDb {
   }
 
   public async getAllValue(
-    tableName: string
+    tableName: StoreNames<Database>
   ): Promise<StoreValue<Database, StoreNames<Database>>[]> {
     const tx = this.db.transaction(tableName, "readonly");
     const store = tx.objectStore(tableName);
@@ -56,12 +57,12 @@ class IndexedDb {
   }
 
   public async putValue(
-    tableName: string,
-    value: Record<string, any>
-  ): Promise<StoreValue<Database, StoreNames<Database>>> {
+    tableName: StoreNames<Database>,
+    value: StoreValue<Database, StoreNames<Database>>
+  ): Promise<StoreValue<Database, StoreNames<Database>> | undefined> {
     console.log("Putting value", value);
     if (!value.hasOwnProperty(ID_KEY)) {
-      value[ID_KEY] = crypto.randomUUID();
+      value[ID_KEY] = crypto.randomUUID() as UUID;
     }
     const tx = this.db.transaction(tableName, "readwrite");
     const store = tx.objectStore(tableName);
@@ -71,14 +72,14 @@ class IndexedDb {
   }
 
   public async putBulkValue(
-    tableName: string,
-    values: Record<string, any>[]
+    tableName: StoreNames<Database>,
+    values: StoreValue<Database, StoreNames<Database>>[]
   ): Promise<StoreValue<Database, StoreNames<Database>>[]> {
     const tx = this.db.transaction(tableName, "readwrite");
     const store = tx.objectStore(tableName);
     for (const value of values) {
       if (!value.hasOwnProperty(ID_KEY)) {
-        value[ID_KEY] = crypto.randomUUID();
+        value[ID_KEY] = crypto.randomUUID() as UUID;
       }
       const result = await store.put(value);
       console.log("Put Bulk Data ", JSON.stringify(result));
@@ -86,7 +87,7 @@ class IndexedDb {
     return this.getAllValue(tableName);
   }
 
-  public async deleteValue(tableName: string, id: UUID) {
+  public async deleteValue(tableName: StoreNames<Database>, id: UUID) {
     const tx = this.db.transaction(tableName, "readwrite");
     const store = tx.objectStore(tableName);
     const result = await store.get(id);

@@ -1,8 +1,7 @@
 "use client";
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState } from "react";
 import type { StoreValue } from "idb";
 import type { Database } from "@/db";
-import { UUID } from "crypto";
 
 type DataPack = StoreValue<Database, "data_packs"> | null;
 

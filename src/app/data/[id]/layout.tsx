@@ -19,10 +19,10 @@ export default function DataLayout({
     (async () => {
       if (db) {
         const dataPack = await db.getValue("data_packs", id);
-        setDataPack(dataPack);
+        if (dataPack) setDataPack(dataPack);
       }
     })();
-  }, [id]);
+  }, [db, setDataPack, id]);
 
   return (
     <>
