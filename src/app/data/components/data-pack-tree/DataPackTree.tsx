@@ -1,17 +1,15 @@
 "use client";
-import { useContext, useMemo } from "react";
+import { useMemo } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { Database } from "@/db";
 import { StoreValue } from "idb";
-import { DatabaseContext } from "@/components/database-context/DatabaseContext";
 import { UUID } from "crypto";
 
 import styles from "./DataPackTree.module.scss";
 import { Icon } from "@/components/icon/Icon";
 import { Button } from "@/components/button/Button";
-import { DataPackContext } from "../data-pack-context/DataPackContext";
 
 const dataPackPages = [
   { slug: "domains", label: "Domains" },
@@ -30,8 +28,6 @@ const DataPackNavigation = ({
   currentPage: string;
   handleDelete: () => void;
 }) => {
-  const db = useContext(DatabaseContext);
-
   return (
     <div className={styles.dataPackNavigation}>
       <div className={styles.dataPackName}>
