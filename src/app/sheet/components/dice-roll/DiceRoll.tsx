@@ -20,10 +20,15 @@ export interface DiceRollResult {
 
 interface DiceRollProps {
   children: string;
+  preview?: boolean;
   onRoll?: (result: DiceRollResult) => void;
 }
 
-export const DiceRoll: React.FC<DiceRollProps> = ({ children, onRoll }) => {
+export const DiceRoll: React.FC<DiceRollProps> = ({
+  children,
+  preview,
+  onRoll,
+}) => {
   const { addRoll } = useContext(RollLogContext);
 
   const diceRollValues = useMemo((): DiceRollValues | Error => {
@@ -79,10 +84,15 @@ export const DiceRoll: React.FC<DiceRollProps> = ({ children, onRoll }) => {
     onRoll?.(rollResult);
   };
 
+  const Component = preview ? "span" : "button";
+
   return (
-    <button className={`${styles.diceRoll}`} onClick={roll}>
+    <Component
+      className={`${styles.diceRoll} ${preview ? styles.preview : ""}`}
+      onClick={preview ? undefined : roll}
+    >
       <Icon name="casino" size="inherit" className={styles.diceRollIcon} />
       <span className={`${styles.label}`}>{children}</span>
-    </button>
+    </Component>
   );
 };

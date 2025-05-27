@@ -1,5 +1,6 @@
 .diceRoll {
-  display: inline;
+  display: inline-flex;
+  align-items: baseline;
   background: none;
   outline: none;
   border: none;
@@ -21,12 +22,14 @@
     line-height: var(--size);
   }
 
-  &:hover,
-  &:focus {
-    color: var(--highlight-hover);
+  &:not(.preview) {
+    &:hover,
+    &:focus {
+      color: var(--highlight-hover);
 
-    .label {
-      text-decoration: underline;
+      .label {
+        text-decoration: underline;
+      }
     }
   }
 }

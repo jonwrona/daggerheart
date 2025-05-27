@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Spline_Sans_Mono } from "next/font/google";
+import { Spline_Sans_Mono, Spline_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SettingsProvider } from "@/components/settings-context/SettingsContext";
@@ -16,7 +16,13 @@ const splineSansMono = Spline_Sans_Mono({
   variable: "--font-spline-sans-mono",
 });
 
-const fontVariables = [splineSansMono.variable].join(" ");
+const splineSans = Spline_Sans({
+  weight: "variable",
+  subsets: ["latin"],
+  variable: "--font-spline-sans",
+});
+
+const fontVariables = [splineSansMono.variable, splineSans.variable].join(" ");
 
 export const metadata: Metadata = {
   title: "Daggerheart Tools",

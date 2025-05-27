@@ -19,10 +19,12 @@ html[data-theme="dark"] {
 }
 
 html {
+  scroll-behavior: smooth;
   max-width: 100vw;
   min-height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
+  text-wrap: pretty;
 }
 
 body {

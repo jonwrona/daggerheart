@@ -71,7 +71,7 @@ export const Card = ({ className = "", children, onClick }: CardProps) => {
 
   return (
     <Component
-      className={`${styles.card} ${className}`}
+      className={`${className} ${styles.card}`}
       onClick={onClick}
       data-clickable={isClickable}
     >

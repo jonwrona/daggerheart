@@ -1,0 +1,27 @@
+.scrollToTop {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: var(--container-background);
+  color: var(--foreground, #000);
+  border: 1px solid var(--border-subtle);
+  border-radius: 0.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  box-shadow: var(--drop-shadow);
+  cursor: pointer;
+  z-index: 2000;
+  text-decoration: none;
+  transition: bottom 0.3s ease;
+}
+
+.scrollToTop:hover {
+  background: var(--highlight);
+  border-color: var(--highlight);
+  color: var(--primary);
+  box-shadow: 0;
+}
