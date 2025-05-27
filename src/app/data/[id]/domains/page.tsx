@@ -3,6 +3,7 @@ import { useContext, useEffect, use, useReducer, Fragment } from "react";
 import { DatabaseContext } from "@/components/database-context/DatabaseContext";
 import { UUID } from "crypto";
 import { Button } from "@/components/button/Button";
+import { DomainCard } from "@/components/domain-card/DomainCard";
 import { groupBy } from "@/utils/groupBy";
 import { StoreValue } from "idb";
 import { Database } from "@/db";
@@ -94,13 +95,15 @@ const DataPackDomains = ({ params }: { params: Promise<{ id: UUID }> }) => {
       {Object.entries(data.domainCards).map(([domain, cards]) => (
         <Fragment key={domain}>
           <h4>{domain}</h4>
-          <ul className={styles.domainCardList}>
+          <div className={styles.domainCardList}>
             {cards.map((card) => (
-              <li key={card.uuid} className={styles.domainCard}>
-                {card.name} (Level: {card.level}, Type: {card.type})
-              </li>
+              <DomainCard
+                key={card.uuid}
+                card={card}
+                onEdit={() => console.log("Click domain card", card.uuid)}
+              />
             ))}
-          </ul>
+          </div>
         </Fragment>
       ))}
       <Button onClick={handleCreate}>Create Domain Card</Button>

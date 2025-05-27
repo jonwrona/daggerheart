@@ -2,10 +2,6 @@
   max-width: 48rem;
   --space: 1.5rem;
 
-  > * + * {
-    margin-top: var(--space);
-  }
-
   h1 {
     --space: 9rem;
   }

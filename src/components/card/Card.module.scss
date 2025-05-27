@@ -1,0 +1,46 @@
+.card {
+  display: block;
+  background: var(--container-background);
+  border: 1px solid var(--border-subtle);
+  border-radius: 0.25rem;
+  position: relative;
+
+  &[data-clickable="true"]:hover {
+    cursor: pointer;
+    border-color: var(--highlight);
+    background: var(--background-hover);
+  }
+
+  > *:not(:last-child) {
+    border-bottom: 1px solid var(--border-subtle);
+  }
+}
+
+.cardSection {
+  padding: 0.5rem 1rem;
+  width: 100%;
+  position: relative;
+
+  &:last-child {
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+  }
+
+  &[data-clickable="true"] {
+    border: 1px solid var(--border-subtle);
+    width: calc(100% + 2px);
+    margin: -1px -1px 0;
+    background: var(--container-background);
+
+    &:last-child {
+      margin-bottom: -1px;
+    }
+
+    &:hover {
+      cursor: pointer;
+      z-index: 1;
+      background: var(--background-hover);
+      border: 1px solid var(--highlight);
+    }
+  }
+}

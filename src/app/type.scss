@@ -40,6 +40,14 @@ p {
   letter-spacing: 0px;
 }
 
+.small,
+.small p {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  letter-spacing: 0.16px;
+}
+
 label {
   font-size: 0.875rem;
   line-height: 1.125rem;
@@ -48,5 +56,6 @@ label {
 }
 
 main > * + * {
-  margin-top: 1.5rem;
+  --space: 1rem;
+  margin-top: var(--space);
 }

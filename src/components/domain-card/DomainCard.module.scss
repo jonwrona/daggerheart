@@ -1,0 +1,19 @@
+.domainCard {
+  color: var(--foreground);
+
+  &:hover .domainCardHeader .icon {
+    display: block;
+    color: var(--highlight);
+  }
+}
+
+.domainCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .icon {
+    display: none;
+    color: var(--foreground);
+  }
+}

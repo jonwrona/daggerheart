@@ -10,6 +10,8 @@
   --highlight-hover: #8b7355;
   --error: #b85450;
 
+  --overlay: rgba(61, 59, 55, 0.6);
+  // --overlay: rgba(139, 134, 128, 0.8);
   --drop-shadow: 0 8px 25px rgba(61, 59, 55, 0.15),
     0 2px 8px rgba(61, 59, 55, 0.08);
 
@@ -39,7 +41,9 @@
   --border-subtle: #4a453f; // dividers/subtle elements
   --error: #b85450;
 
-  --drop-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);
+  --overlay: rgba(0, 0, 0, 0.7);
+  // --overlay: rgba(28, 27, 24, 0.85);
+  --drop-shadow: 0 8px 25px rgba(5, 5, 5, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);
 
   // background tokens
   //  1C1B18 - main background, like dark aged paper

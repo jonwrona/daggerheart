@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SettingsProvider } from "@/components/settings-context/SettingsContext";
 import { DatabaseProvider } from "@/components/database-context/DatabaseContext";
+import { ModalProvider } from "@/components/modal/ModalContext";
 import { ThemeSetter } from "@/components/theme-setter/ThemeSetter";
 import "./reset.scss";
 import "./globals.scss";
@@ -33,8 +34,10 @@ export default function RootLayout({
       <body className={fontVariables}>
         <SettingsProvider>
           <DatabaseProvider>
-            {children}
-            <ThemeSetter />
+            <ModalProvider>
+              {children}
+              <ThemeSetter />
+            </ModalProvider>
           </DatabaseProvider>
         </SettingsProvider>
         <Analytics />
