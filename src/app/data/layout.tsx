@@ -1,21 +1,36 @@
 "use client";
-import { useContext, useState, useEffect } from "react";
-import { redirect } from "next/navigation";
+import { useContext, useState, useEffect, useMemo, useRef } from "react";
+import { redirect, usePathname } from "next/navigation";
 import { DataMenu } from "./components/data-menu/DataMenu";
 import { DataPackProvider } from "./components/data-pack-context/DataPackContext";
 import { DataPackTree } from "./components/data-pack-tree/DataPackTree";
-import styles from "./layout.module.scss";
 import { DatabaseContext } from "@/components/database-context/DatabaseContext";
-import { createDataPack } from "@/data/datapack";
+import {
+  createDataPack,
+  getDataPackData,
+  importDataPackData,
+} from "@/data/datapack";
 import { Database } from "@/db";
 import { StoreValue } from "idb";
 import { UUID } from "crypto";
+import { FileSelector } from "@/components/file-selector/FileSelector";
+import { saveJSONToFile } from "@/utils/jsonFileManagement";
+
+import styles from "./layout.module.scss";
 
 export default function DataLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+  const [pathID] = useMemo(() => {
+    const pathParts = pathname.split("/");
+    return pathParts.slice(2);
+  }, [pathname]);
+
+  const fileSelectorRef = useRef<HTMLInputElement>(null);
+
   const db = useContext(DatabaseContext);
   const [dataPacks, setDataPacks] = useState<
     StoreValue<Database, "data_packs">[]
@@ -59,13 +74,36 @@ export default function DataLayout({
     }
   };
 
+  const handleExport = async () => {
+    console.log(`Exporting current data pack: ${pathID}`);
+    if (db && pathID) {
+      const data = await getDataPackData(db, pathID as UUID);
+      saveJSONToFile(data, "test_datapack");
+    }
+  };
+
+  const handleImport = () => {
+    fileSelectorRef.current?.click();
+  };
+
+  const handleImportFile = async (data: any) => {
+    if (db) {
+      await importDataPackData(db, data);
+    }
+  };
+
   return (
     <DataPackProvider>
-      <DataMenu handleNew={handleNew} />
+      <DataMenu
+        handleNew={handleNew}
+        handleExport={handleExport}
+        handleImport={handleImport}
+      />
       <div className={styles.layout}>
         <DataPackTree dataPacks={dataPacks} handleDelete={handleDelete} />
         <main className={styles.main}>{children}</main>
       </div>
+      <FileSelector inputRef={fileSelectorRef} handleLoad={handleImportFile} />
     </DataPackProvider>
   );
 }

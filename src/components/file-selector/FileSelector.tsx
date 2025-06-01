@@ -30,7 +30,7 @@ export const FileSelector: React.FC<FileSelectorProps> = ({
     <input
       ref={inputRef}
       type="file"
-      accept=".character.dh,application/json"
+      accept=".daggerheart"
       style={{ display: "none" }}
       onChange={onChange}
     />

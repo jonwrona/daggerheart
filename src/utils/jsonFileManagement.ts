@@ -1,5 +1,5 @@
 export const saveJSONToFile = (
-  data: object,
+  data: any,
   filename: string = "daggerheart-toolset-json"
 ) => {
   const json = JSON.stringify(data, null, 2);
@@ -8,7 +8,7 @@ export const saveJSONToFile = (
 
   const a = document.createElement("a");
   a.href = url;
-  a.download = `${filename}.dh`; // custom daggerheart extension
+  a.download = `${filename}.daggerheart`; // custom daggerheart extension
   a.click();
 
   URL.revokeObjectURL(url);

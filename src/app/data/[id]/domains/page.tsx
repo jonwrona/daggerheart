@@ -6,6 +6,7 @@ import {
   useReducer,
   useMemo,
   Fragment,
+  useState,
 } from "react";
 import { DatabaseContext } from "@/components/database-context/DatabaseContext";
 import { UUID } from "crypto";
@@ -119,6 +120,7 @@ const DataPackDomains = ({ params }: { params: Promise<{ id: UUID }> }) => {
   const { id } = use(params);
   const db = useContext(DatabaseContext);
   const [data, dispatch] = useReducer(reducer, { domainCards: {} });
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -142,7 +144,7 @@ const DataPackDomains = ({ params }: { params: Promise<{ id: UUID }> }) => {
     return Object.entries(data.domainCards).sort((a, b) =>
       a[0].localeCompare(b[0])
     );
-  }, [data.domainCards]);
+  }, [data.domainCards, filter]);
 
   const handleCreate = async () => {
     if (db) {
@@ -201,11 +203,21 @@ const DataPackDomains = ({ params }: { params: Promise<{ id: UUID }> }) => {
         )}
       </ul>
       <Button onClick={handleCreate}>Create Domain Card</Button>
+      <input
+        type="text"
+        className={styles.searchInput}
+        placeholder="Search..."
+        value={filter}
+        onChange={(e) => setFilter(e.target.value)}
+      />
       {domains.map(([domain, cards]) => (
         <Fragment key={domain}>
           <h4 id={domain}>{domain || "<Domain not defined>"}</h4>
           <div className={styles.domainCardList}>
             {cards
+              .filter((card) =>
+                card.name.toLowerCase().includes(filter.toLowerCase())
+              )
               .sort((a, b) => {
                 if (a.level !== b.level) {
                   return a.level - b.level;
