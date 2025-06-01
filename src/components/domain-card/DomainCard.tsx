@@ -15,6 +15,7 @@ import { FeatureMarkdown } from "@/components/markdown/FeatureMarkdown";
 import { useContext, useReducer } from "react";
 import { DatabaseContext } from "../database-context/DatabaseContext";
 import { UUID } from "crypto";
+import { AutoHeightTextArea } from "../auto-height-textarea/AutoHeightTextarea";
 
 interface DomainCardProps extends Partial<CardProps> {
   card: DomainCardDB;
@@ -140,10 +141,11 @@ const DomainCardEditModal = ({
         </label>
         <label>
           Feature:
-          <textarea
+          <AutoHeightTextArea
             name="feature"
             value={state.feature}
             onChange={handleChange}
+            style={{ width: "100%", maxHeight: "14rem", padding: "2rem" }}
           />
         </label>
         <input type="submit" value="Save" onClick={handleSave} />

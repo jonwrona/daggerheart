@@ -17,7 +17,6 @@ export const AutoWidthInput: React.FC<AutoWidthInputProps> = ({
     const input = inputRef.current;
     const span = spanRef.current;
     if (input && span) {
-      console.log(input.value);
       span.textContent = input.value || input.placeholder || "";
       input.style.width = `calc(${span.offsetWidth}px + 0.25em)`;
     }
@@ -47,6 +46,7 @@ export const AutoWidthInput: React.FC<AutoWidthInputProps> = ({
           whiteSpace: "pre",
           padding: 0,
           margin: 0,
+          width: "100%",
         }}
       ></span>
     </>
