@@ -20,9 +20,7 @@ export const Modal: React.FC<ModalProps> = ({ id, children, onClose }) => {
       onClose?.();
     },
     [closeModal, onClose]
-  );
-
-  // Handle ESC key press
+  ); // Handle ESC key press and prevent background scroll
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) {
@@ -33,13 +31,29 @@ export const Modal: React.FC<ModalProps> = ({ id, children, onClose }) => {
 
     if (isOpen) {
       document.addEventListener("keydown", handleEscape);
-      // Prevent body scroll when modal is open
-      document.body.style.overflow = "hidden";
+
+      // Prevent background scroll while allowing modal overlay to scroll
+      const originalPosition = document.body.style.position;
+      const scrollY = window.scrollY;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = "100%";
+
+      return () => {
+        document.removeEventListener("keydown", handleEscape);
+        document.body.style.position = originalPosition;
+        document.body.style.top = "";
+        document.body.style.width = "";
+        window.scrollTo({
+          top: scrollY,
+          left: 0,
+          behavior: "instant",
+        });
+      };
     }
 
     return () => {
       document.removeEventListener("keydown", handleEscape);
-      document.body.style.overflow = "unset";
     };
   }, [isOpen, handleClose]);
 

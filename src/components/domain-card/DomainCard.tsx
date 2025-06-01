@@ -145,7 +145,7 @@ const DomainCardEditModal = ({
             name="feature"
             value={state.feature}
             onChange={handleChange}
-            style={{ width: "100%", maxHeight: "14rem", padding: "2rem" }}
+            style={{ width: "100%" }}
           />
         </label>
         <input type="submit" value="Save" onClick={handleSave} />

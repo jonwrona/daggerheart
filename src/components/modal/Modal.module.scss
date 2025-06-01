@@ -7,9 +7,11 @@
   background-color: var(--overlay);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   z-index: 1010;
   padding: 1rem;
+  overflow-y: auto;
+  /* Allow page-like scrolling for the modal */
 }
 
 .modal {
@@ -21,6 +23,9 @@
   max-width: 600px;
   padding: 1rem;
   position: relative;
+  margin: 2rem 0;
+  /* Add margin top and bottom to provide space when scrolling */
+  min-height: fit-content;
 }
 
 .closeButton {
