@@ -10,9 +10,7 @@ import {
   getDataPackData,
   importDataPackData,
 } from "@/data/datapack";
-import { Database } from "@/db";
 import type { DataPackDB, DomainCardDB, AncestryDB } from "@/db";
-import { StoreValue } from "idb";
 import { UUID } from "crypto";
 import { FileSelector } from "@/components/file-selector/FileSelector";
 import { saveJSONToFile } from "@/utils/jsonFileManagement";
@@ -41,9 +39,7 @@ export default function DataLayout({
   const fileSelectorRef = useRef<HTMLInputElement>(null);
 
   const db = useContext(DatabaseContext);
-  const [dataPacks, setDataPacks] = useState<
-    StoreValue<Database, "data_packs">[]
-  >([]);
+  const [dataPacks, setDataPacks] = useState<DataPackDB[]>([]);
 
   useEffect(() => {
     (async () => {

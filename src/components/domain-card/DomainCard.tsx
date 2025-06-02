@@ -7,8 +7,7 @@ import {
   type CardProps,
 } from "@/components/card/Card";
 import { Icon } from "../icon/Icon";
-import { StoreValue } from "idb";
-import { Database } from "@/db";
+import { DomainCardDB } from "@/db";
 import { capitalize } from "@/utils/capitalize";
 import { Modal, useModalControl } from "@/components/modal";
 import { shortCode } from "@/utils/shortCode";
@@ -18,19 +17,17 @@ import { DatabaseContext } from "../database-context/DatabaseContext";
 import { UUID } from "crypto";
 import { AutoHeightTextArea } from "../auto-height-textarea/AutoHeightTextarea";
 
-type DomainCard = StoreValue<Database, "domain_cards">;
-
 interface DomainCardProps extends Partial<CardProps> {
-  card: DomainCard;
-  onEdit?: (saved: DomainCard) => void;
+  card: DomainCardDB;
+  onEdit?: (saved: DomainCardDB) => void;
   onDelete?: (deleted: UUID) => void;
 }
 
 type EditAction =
   | { type: "HANDLE_INPUT_CHANGE"; field: string; payload: string }
-  | { type: "SET_CARD"; payload: DomainCard };
+  | { type: "SET_CARD"; payload: DomainCardDB };
 
-const editReducer = (state: DomainCard, action: EditAction): DomainCard => {
+const editReducer = (state: DomainCardDB, action: EditAction): DomainCardDB => {
   switch (action.type) {
     case "HANDLE_INPUT_CHANGE":
       return { ...state, [action.field]: action.payload };
@@ -48,8 +45,8 @@ const DomainCardEditModal = ({
   onDelete,
 }: {
   id: string;
-  card: DomainCard;
-  onSave?: (card: DomainCard) => void;
+  card: DomainCardDB;
+  onSave?: (card: DomainCardDB) => void;
   onDelete?: (deleted: UUID) => void;
 }) => {
   const { close } = useModalControl(id);
@@ -67,9 +64,10 @@ const DomainCardEditModal = ({
 
   const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const saved = (await db?.putValue("domain_cards", state as DomainCard)) as
-      | DomainCard
-      | undefined;
+    const saved = (await db?.putValue(
+      "domain_cards",
+      state as DomainCardDB
+    )) as DomainCardDB | undefined;
     if (saved) {
       onSave?.(saved);
       close();

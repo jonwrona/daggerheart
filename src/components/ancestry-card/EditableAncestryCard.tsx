@@ -1,6 +1,5 @@
-import { StoreValue } from "idb";
 import { AncestryCardProps, AncestryCard } from "./AncestryCard";
-import { Database } from "@/db";
+import { AncestryDB } from "@/db";
 import { UUID } from "crypto";
 import { shortCode } from "@/utils/shortCode";
 import { Modal, useModalControl } from "../modal";
@@ -10,18 +9,16 @@ import { AutoHeightTextArea } from "../auto-height-textarea/AutoHeightTextarea";
 
 import styles from "./AncestryCard.module.scss";
 
-type Ancestry = StoreValue<Database, "ancestries">;
-
 interface EditableAncestryCardProps extends AncestryCardProps {
-  onEdit?: (saved: Ancestry) => void;
+  onEdit?: (saved: AncestryDB) => void;
   onDelete?: (deleted: UUID) => void;
 }
 
 type EditAction =
   | { type: "HANDLE_INPUT_CHANGE"; field: string; payload: string }
-  | { type: "SET_ANCESTRY"; payload: Ancestry };
+  | { type: "SET_ANCESTRY"; payload: AncestryDB };
 
-const editReducer = (state: Ancestry, action: EditAction): Ancestry => {
+const editReducer = (state: AncestryDB, action: EditAction): AncestryDB => {
   switch (action.type) {
     case "HANDLE_INPUT_CHANGE":
       return { ...state, [action.field]: action.payload };
@@ -39,8 +36,8 @@ const AncestryCardEditModal = ({
   onDelete,
 }: {
   id: string;
-  ancestry: Ancestry;
-  onSave?: (ancestry: Ancestry) => void;
+  ancestry: AncestryDB;
+  onSave?: (ancestry: AncestryDB) => void;
   onDelete?: (deleted: UUID) => void;
 }) => {
   const { close } = useModalControl(id);
@@ -56,8 +53,8 @@ const AncestryCardEditModal = ({
 
   const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const saved = (await db?.putValue("ancestries", state as Ancestry)) as
-      | Ancestry
+    const saved = (await db?.putValue("ancestries", state as AncestryDB)) as
+      | AncestryDB
       | undefined;
     if (saved) {
       onSave?.(saved);

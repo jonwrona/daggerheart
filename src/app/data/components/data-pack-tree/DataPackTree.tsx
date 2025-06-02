@@ -3,8 +3,7 @@ import { useMemo } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { Database } from "@/db";
-import { StoreValue } from "idb";
+import { DataPackDB } from "@/db";
 import { UUID } from "crypto";
 
 import styles from "./DataPackTree.module.scss";
@@ -60,7 +59,7 @@ export const DataPackTree = ({
   dataPacks,
   handleDelete,
 }: {
-  dataPacks: StoreValue<Database, "data_packs">[];
+  dataPacks: DataPackDB[];
   handleDelete: (id: UUID) => void;
 }) => {
   const pathname = usePathname();

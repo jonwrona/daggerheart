@@ -13,29 +13,26 @@ import { UUID } from "crypto";
 import { Button } from "@/components/button/Button";
 import { DomainCard } from "@/components/domain-card/DomainCard";
 import { groupBy } from "@/utils/groupBy";
-import { StoreValue } from "idb";
-import { Database } from "@/db";
+import { DomainCardDB } from "@/db";
 import { CardType } from "@/types/daggerheart/daggerheart";
 import styles from "./page.module.scss";
 import ScrollToTop from "@/components/scroll-to-top/ScrollToTop";
 
-type DomainCard = StoreValue<Database, "domain_cards">;
-
 interface DomainCardsState {
-  domainCards: Record<string, DomainCard[]>;
+  domainCards: Record<string, DomainCardDB[]>;
 }
 
 type SetDomainCardsAction = {
   type: "SET_DOMAIN_CARDS";
-  payload: Record<string, DomainCard[]>;
+  payload: Record<string, DomainCardDB[]>;
 };
 type AddDomainCardAction = {
   type: "ADD_DOMAIN_CARD";
-  payload: { domain: string; card: DomainCard };
+  payload: { domain: string; card: DomainCardDB };
 };
 type EditDomainCardAction = {
   type: "EDIT_DOMAIN_CARD";
-  payload: { card: DomainCard };
+  payload: { card: DomainCardDB };
 };
 type DeleteDomainCardAction = {
   type: "DELETE_DOMAIN_CARD";
@@ -171,7 +168,7 @@ const DataPackDomains = ({ params }: { params: Promise<{ id: UUID }> }) => {
     }
   };
 
-  const onCardEdit = (saved: DomainCard) => {
+  const onCardEdit = (saved: DomainCardDB) => {
     dispatch({
       type: "EDIT_DOMAIN_CARD",
       payload: { card: saved },

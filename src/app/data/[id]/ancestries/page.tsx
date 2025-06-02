@@ -1,6 +1,5 @@
 "use client";
-import type { StoreValue } from "idb";
-import type { Database } from "@/db";
+import type { AncestryDB } from "@/db";
 import type { UUID } from "crypto";
 import { Button } from "@/components/button/Button";
 
@@ -19,23 +18,21 @@ import { EditableAncestryCard } from "@/components/ancestry-card/EditableAncestr
 
 import styles from "./page.module.scss";
 
-type Ancestry = StoreValue<Database, "ancestries">;
-
 interface AncestriesState {
-  ancestries: Ancestry[];
+  ancestries: AncestryDB[];
 }
 
 type SetAncestriesAction = {
   type: "SET_ANCESTRIES";
-  payload: Ancestry[];
+  payload: AncestryDB[];
 };
 type AddAncestryAction = {
   type: "ADD_ANCESTRY";
-  payload: { ancestry: Ancestry };
+  payload: { ancestry: AncestryDB };
 };
 type EditAncestryAction = {
   type: "EDIT_ANCESTRY";
-  payload: { ancestry: Ancestry };
+  payload: { ancestry: AncestryDB };
 };
 type DeleteAncestryAction = {
   type: "DELETE_ANCESTRY";
@@ -143,7 +140,7 @@ const DataPackAncestries = ({ params }: { params: Promise<{ id: UUID }> }) => {
     }
   };
 
-  const handleEdit = (saved: Ancestry) => {
+  const handleEdit = (saved: AncestryDB) => {
     dispatch({
       type: "EDIT_ANCESTRY",
       payload: { ancestry: saved },

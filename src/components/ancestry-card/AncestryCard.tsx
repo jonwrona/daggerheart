@@ -1,15 +1,12 @@
-import { type Database } from "@/db";
-import { type StoreValue } from "idb";
+import { type AncestryDB } from "@/db";
 import { type CardProps, Card, CardHeader, CardSection } from "../card/Card";
 
 import styles from "./AncestryCard.module.scss";
 import { FeatureMarkdown } from "../markdown/FeatureMarkdown";
 import { Icon } from "../icon/Icon";
 
-type Ancestry = StoreValue<Database, "ancestries">;
-
 export interface AncestryCardProps extends Partial<CardProps> {
-  ancestry: Ancestry;
+  ancestry: AncestryDB;
   editable?: boolean;
 }
 
