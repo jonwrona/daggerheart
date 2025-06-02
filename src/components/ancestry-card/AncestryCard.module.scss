@@ -1,0 +1,27 @@
+.ancestryCard {
+  color: var(--foreground);
+  display: flex;
+  flex-direction: column;
+
+  &:hover .ancestryCardHeader .icon {
+    display: block;
+    color: var(--highlight);
+  }
+}
+
+.ancestryCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .icon {
+    display: none;
+    color: var(--foreground);
+  }
+}
+
+.ancestryEditForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

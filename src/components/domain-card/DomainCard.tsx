@@ -7,7 +7,8 @@ import {
   type CardProps,
 } from "@/components/card/Card";
 import { Icon } from "../icon/Icon";
-import type { DomainCardDB } from "@/db";
+import { StoreValue } from "idb";
+import { Database } from "@/db";
 import { capitalize } from "@/utils/capitalize";
 import { Modal, useModalControl } from "@/components/modal";
 import { shortCode } from "@/utils/shortCode";
@@ -17,13 +18,19 @@ import { DatabaseContext } from "../database-context/DatabaseContext";
 import { UUID } from "crypto";
 import { AutoHeightTextArea } from "../auto-height-textarea/AutoHeightTextarea";
 
+type DomainCard = StoreValue<Database, "domain_cards">;
+
 interface DomainCardProps extends Partial<CardProps> {
-  card: DomainCardDB;
-  onEdit?: (saved: DomainCardDB) => void;
+  card: DomainCard;
+  onEdit?: (saved: DomainCard) => void;
   onDelete?: (deleted: UUID) => void;
 }
 
-const editReducer = (state: DomainCardDB, action: any): DomainCardDB => {
+type EditAction =
+  | { type: "HANDLE_INPUT_CHANGE"; field: string; payload: string }
+  | { type: "SET_CARD"; payload: DomainCard };
+
+const editReducer = (state: DomainCard, action: EditAction): DomainCard => {
   switch (action.type) {
     case "HANDLE_INPUT_CHANGE":
       return { ...state, [action.field]: action.payload };
@@ -41,8 +48,8 @@ const DomainCardEditModal = ({
   onDelete,
 }: {
   id: string;
-  card: DomainCardDB;
-  onSave?: (card: DomainCardDB) => void;
+  card: DomainCard;
+  onSave?: (card: DomainCard) => void;
   onDelete?: (deleted: UUID) => void;
 }) => {
   const { close } = useModalControl(id);
@@ -58,12 +65,11 @@ const DomainCardEditModal = ({
     dispatch({ type: "HANDLE_INPUT_CHANGE", field: name, payload: value });
   };
 
-  const handleSave = async (e: React.MouseEvent<HTMLInputElement>) => {
+  const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const saved = (await db?.putValue(
-      "domain_cards",
-      state as DomainCardDB
-    )) as DomainCardDB | undefined;
+    const saved = (await db?.putValue("domain_cards", state as DomainCard)) as
+      | DomainCard
+      | undefined;
     if (saved) {
       onSave?.(saved);
       close();
@@ -76,7 +82,7 @@ const DomainCardEditModal = ({
       const deleted = await db?.deleteValue("domain_cards", card.uuid);
       console.log(deleted);
       if (deleted) {
-        onDelete?.(card.uuid);
+        onDelete?.(deleted);
         close();
       }
     }
@@ -86,7 +92,7 @@ const DomainCardEditModal = ({
 
   return (
     <Modal id={id} onClose={onClose}>
-      <form className={styles.domainCardEditForm}>
+      <form onSubmit={handleSave} className={styles.domainCardEditForm}>
         <label>
           Name:
           <input
@@ -148,16 +154,7 @@ const DomainCardEditModal = ({
             style={{ width: "100%" }}
           />
         </label>
-        <input type="submit" value="Save" onClick={handleSave} />
-        <button
-          type="button"
-          onClick={() => {
-            // Close the modal without saving
-            console.log("Closing modal without saving");
-          }}
-        >
-          Cancel
-        </button>
+        <input type="submit" value="Save" />
         <button type="button" onClick={handleDelete}>
           Delete
         </button>

@@ -1,5 +1,5 @@
 export const saveJSONToFile = (
-  data: any,
+  data: Record<string, unknown> | Array<unknown>,
   filename: string = "daggerheart-toolset-json"
 ) => {
   const json = JSON.stringify(data, null, 2);

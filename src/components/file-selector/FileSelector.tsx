@@ -1,14 +1,16 @@
-import { CharacterSheet } from "@/types/daggerheart/character-sheet";
-
-type FileSelectorProps = {
+type FileSelectorProps<T> = {
   inputRef: React.RefObject<HTMLInputElement | null>;
-  handleLoad: (json: CharacterSheet) => void;
+  handleLoad: (json: T) => void;
+  acceptedExtensions?: string;
+  errorMessage?: string;
 };
 
-export const FileSelector: React.FC<FileSelectorProps> = ({
+export const FileSelector = <T,>({
   inputRef,
   handleLoad,
-}) => {
+  acceptedExtensions = ".daggerheart",
+  errorMessage = "Invalid file format.",
+}: FileSelectorProps<T>): React.ReactElement => {
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -19,18 +21,17 @@ export const FileSelector: React.FC<FileSelectorProps> = ({
         const json = JSON.parse(e.target?.result as string);
         handleLoad(json);
       } catch (err) {
-        alert("Invalid character sheet save file.");
+        alert(errorMessage);
         console.error(err);
       }
     };
     reader.readAsText(file);
   };
-
   return (
     <input
       ref={inputRef}
       type="file"
-      accept=".daggerheart"
+      accept={acceptedExtensions}
       style={{ display: "none" }}
       onChange={onChange}
     />

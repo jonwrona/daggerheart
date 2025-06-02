@@ -24,6 +24,7 @@ class IndexedDb {
       return false;
     }
   }
+
   public async getValue<T extends StoreNames<Database>>(
     tableName: T,
     id: UUID
@@ -34,6 +35,7 @@ class IndexedDb {
     console.log("Get Data ", JSON.stringify(result));
     return result;
   }
+
   public async getValueByIndex<T extends StoreNames<Database>>(
     tableName: T,
     indexName: IndexNames<Database, T>,
@@ -46,6 +48,7 @@ class IndexedDb {
     console.log("Get Data by Index", JSON.stringify(result));
     return result;
   }
+
   public async getAllValue<T extends StoreNames<Database>>(
     tableName: T
   ): Promise<StoreValue<Database, T>[]> {
@@ -55,6 +58,7 @@ class IndexedDb {
     console.log("Get All Data", JSON.stringify(result));
     return result;
   }
+
   public async getAllValueByIndex<T extends StoreNames<Database>>(
     tableName: T,
     indexName: IndexNames<Database, T>,
@@ -67,6 +71,7 @@ class IndexedDb {
     console.log("Get All Data by Index", JSON.stringify(result));
     return result;
   }
+
   public async putValue<T extends StoreNames<Database>>(
     tableName: T,
     value: StoreValue<Database, T>
@@ -81,6 +86,7 @@ class IndexedDb {
     const storeValue = store.get(result);
     return storeValue;
   }
+
   public async putBulkValue<T extends StoreNames<Database>>(
     tableName: T,
     values: StoreValue<Database, T>[]
@@ -112,6 +118,7 @@ class IndexedDb {
     console.log("Deleted Data", id);
     return id;
   }
+
   public async deleteValuesByIndex<T extends StoreNames<Database>>(
     tableName: T,
     indexName: IndexNames<Database, T>,

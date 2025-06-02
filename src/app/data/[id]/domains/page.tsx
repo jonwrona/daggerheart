@@ -14,28 +14,28 @@ import { Button } from "@/components/button/Button";
 import { DomainCard } from "@/components/domain-card/DomainCard";
 import { groupBy } from "@/utils/groupBy";
 import { StoreValue } from "idb";
-import { Database, DomainCardDB } from "@/db";
+import { Database } from "@/db";
 import { CardType } from "@/types/daggerheart/daggerheart";
 import styles from "./page.module.scss";
 import ScrollToTop from "@/components/scroll-to-top/ScrollToTop";
 
-interface DomainCardsState {
-  domainCards: Record<string, DomainCardDB[]>;
-}
-
 type DomainCard = StoreValue<Database, "domain_cards">;
+
+interface DomainCardsState {
+  domainCards: Record<string, DomainCard[]>;
+}
 
 type SetDomainCardsAction = {
   type: "SET_DOMAIN_CARDS";
-  payload: Record<string, DomainCardDB[]>;
+  payload: Record<string, DomainCard[]>;
 };
 type AddDomainCardAction = {
   type: "ADD_DOMAIN_CARD";
-  payload: { domain: string; card: DomainCardDB };
+  payload: { domain: string; card: DomainCard };
 };
 type EditDomainCardAction = {
   type: "EDIT_DOMAIN_CARD";
-  payload: { card: DomainCardDB };
+  payload: { card: DomainCard };
 };
 type DeleteDomainCardAction = {
   type: "DELETE_DOMAIN_CARD";
@@ -124,7 +124,7 @@ const DataPackDomains = ({ params }: { params: Promise<{ id: UUID }> }) => {
 
   useEffect(() => {
     (async () => {
-      if (db) {
+      if (id && db) {
         try {
           const domainCards = await db.getAllValueByIndex(
             "domain_cards",
@@ -144,7 +144,7 @@ const DataPackDomains = ({ params }: { params: Promise<{ id: UUID }> }) => {
     return Object.entries(data.domainCards).sort((a, b) =>
       a[0].localeCompare(b[0])
     );
-  }, [data.domainCards, filter]);
+  }, [data.domainCards]);
 
   const handleCreate = async () => {
     if (db) {
@@ -162,7 +162,7 @@ const DataPackDomains = ({ params }: { params: Promise<{ id: UUID }> }) => {
         if (newCard) {
           dispatch({
             type: "ADD_DOMAIN_CARD",
-            payload: { domain: newDomain.domain, card: newCard as DomainCard },
+            payload: { domain: newDomain.domain, card: newCard },
           });
         }
       } catch (error) {
@@ -171,15 +171,14 @@ const DataPackDomains = ({ params }: { params: Promise<{ id: UUID }> }) => {
     }
   };
 
-  const onCardEdit = (saved: DomainCardDB) => {
-    console.log(saved);
+  const onCardEdit = (saved: DomainCard) => {
     dispatch({
       type: "EDIT_DOMAIN_CARD",
       payload: { card: saved },
     });
   };
 
-  const onCardDelete = async (id: UUID) => {
+  const onCardDelete = (id: UUID) => {
     dispatch({
       type: "DELETE_DOMAIN_CARD",
       payload: { id },

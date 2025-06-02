@@ -51,7 +51,13 @@ export interface Subclass {
 
 export type Ancestry = {
   name: string;
-  features: Feature | Feature[];
+  primaryFeature: string;
+  secondaryFeature: string;
+};
+
+export type HybridAncestry = {
+  primary: Ancestry;
+  secondary: Ancestry;
 };
 
 export type Community = {

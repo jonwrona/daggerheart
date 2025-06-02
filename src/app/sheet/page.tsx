@@ -96,7 +96,12 @@ const CharacterSheet = () => {
         <Currency total={state.currency} setTotal={setCurrency} max={999} />
       </div>
       <RollLog />
-      <FileSelector inputRef={fileSelectorRef} handleLoad={dispatch} />
+      <FileSelector<Partial<CharacterSheet>>
+        inputRef={fileSelectorRef}
+        handleLoad={dispatch}
+        acceptedExtensions=".daggerheart"
+        errorMessage="Invalid character sheet save file."
+      />
     </RollLogProvider>
   );
 };

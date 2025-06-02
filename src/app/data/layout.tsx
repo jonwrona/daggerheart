@@ -11,12 +11,21 @@ import {
   importDataPackData,
 } from "@/data/datapack";
 import { Database } from "@/db";
+import type { DataPackDB, DomainCardDB, AncestryDB } from "@/db";
 import { StoreValue } from "idb";
 import { UUID } from "crypto";
 import { FileSelector } from "@/components/file-selector/FileSelector";
 import { saveJSONToFile } from "@/utils/jsonFileManagement";
 
 import styles from "./layout.module.scss";
+
+// Type for import data entries that have _type metadata
+type ImportDataEntry =
+  | ({ _type: "data_packs" } & Omit<DataPackDB, "_type">)
+  | ({ _type: "domain_cards" } & Omit<DomainCardDB, "_type">)
+  | ({ _type: "ancestries" } & Omit<AncestryDB, "_type">);
+
+type ImportData = ImportDataEntry[];
 
 export default function DataLayout({
   children,
@@ -78,15 +87,14 @@ export default function DataLayout({
     console.log(`Exporting current data pack: ${pathID}`);
     if (db && pathID) {
       const data = await getDataPackData(db, pathID as UUID);
-      saveJSONToFile(data, "test_datapack");
+      if (data) saveJSONToFile(data, "test_datapack");
     }
   };
 
   const handleImport = () => {
     fileSelectorRef.current?.click();
   };
-
-  const handleImportFile = async (data: any) => {
+  const handleImportFile = async (data: ImportData) => {
     if (db) {
       await importDataPackData(db, data);
     }
@@ -103,7 +111,12 @@ export default function DataLayout({
         <DataPackTree dataPacks={dataPacks} handleDelete={handleDelete} />
         <main className={styles.main}>{children}</main>
       </div>
-      <FileSelector inputRef={fileSelectorRef} handleLoad={handleImportFile} />
+      <FileSelector<ImportData>
+        inputRef={fileSelectorRef}
+        handleLoad={handleImportFile}
+        acceptedExtensions=".json"
+        errorMessage="Invalid data pack format."
+      />
     </DataPackProvider>
   );
 }
