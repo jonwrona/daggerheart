@@ -11,7 +11,7 @@ import {
 import { DatabaseContext } from "@/components/database-context/DatabaseContext";
 import { UUID } from "crypto";
 import { Button } from "@/components/button/Button";
-import { DomainCard } from "@/components/domain-card/DomainCard";
+import { EditableDomainCard } from "@/components/domain-card/EditableDomainCard";
 import { groupBy } from "@/utils/groupBy";
 import { DomainCardDB } from "@/db";
 import { CardType } from "@/types/daggerheart/daggerheart";
@@ -221,7 +221,7 @@ const DataPackDomains = ({ params }: { params: Promise<{ id: UUID }> }) => {
                 return a.name.localeCompare(b.name);
               })
               .map((card) => (
-                <DomainCard
+                <EditableDomainCard
                   key={card.uuid}
                   card={card}
                   onEdit={onCardEdit}
